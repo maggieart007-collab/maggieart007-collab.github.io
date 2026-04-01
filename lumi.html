@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumi — Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;900&family=Literata:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #041045;
+      --blue-1: #29B8FF;
+      --blue-2: #2C7DFF;
+      --white: #ffffff;
+      --heading-color: #DCEAFF;
+      --highlight-bg: rgba(220, 234, 255, 0.12);
+      --text-color: rgba(220, 234, 255, 0.82);
+      --text-muted: rgba(220, 234, 255, 0.56);
+      --font-body: 'Albert Sans', sans-serif;
+      --font-heading: 'Literata', serif;
+      --font-nunito: 'Nunito', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: #DCEAFF;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ═══════════════════════════════
+       Navigation
+    ═══════════════════════════════ */
+    .nav-wrapper {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-120px);
+      z-index: 100;
+      animation: navSlideIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .nav-wrapper.hidden { transform: translateX(-50%) translateY(-120px); }
+    .nav-wrapper.visible { transform: translateX(-50%) translateY(0); }
+
+    @keyframes navSlideIn { to { transform: translateX(-50%) translateY(0); } }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 32px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
+      padding: 8px 16px;
+      position: relative;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .nav a:hover { color: #ffffff; }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 16px;
+      right: 16px;
+      height: 1px;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .nav a:hover::after { transform: scaleX(1); }
+
+    /* ═══════════════════════════════
+       Animated Background
+    ═══════════════════════════════ */
+    .bg-fixed {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.35;
+      will-change: transform;
+      transition: top 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  left 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  right 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  bottom 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .bg-circle--1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, var(--blue-1), var(--blue-2));
+      top: -10%; left: -5%;
+      animation: float1 18s ease-in-out infinite;
+    }
+
+    .bg-circle--2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--blue-2), var(--blue-1));
+      top: 30%; right: -10%;
+      animation: float2 22s ease-in-out infinite;
+    }
+
+    .bg-circle--3 {
+      width: 450px; height: 450px;
+      background: radial-gradient(circle, var(--blue-1), transparent 70%);
+      bottom: 10%; left: 20%;
+      animation: float3 20s ease-in-out infinite;
+    }
+
+    .bg-circle--4 {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, var(--blue-2), transparent 70%);
+      top: 55%; left: -8%;
+      animation: float4 25s ease-in-out infinite;
+    }
+
+    .bg-circle--5 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, var(--blue-1), var(--blue-2));
+      bottom: -5%; right: 15%;
+      animation: float5 19s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, 30px) scale(1.05); }
+      66% { transform: translate(-20px, -15px) scale(0.95); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-35px, 25px) scale(0.95); }
+      66% { transform: translate(20px, -30px) scale(1.05); }
+    }
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -25px) scale(1.04); }
+    }
+    @keyframes float4 {
+      0%, 100% { transform: translate(0, 0); }
+      40% { transform: translate(25px, 20px); }
+      80% { transform: translate(-15px, -10px); }
+    }
+    @keyframes float5 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-20px, 20px) scale(1.03); }
+    }
+
+    /* ═══════════════════════════════
+       Content & Screens
+    ═══════════════════════════════ */
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .screen--long {
+      min-height: auto;
+      text-align: left;
+      justify-content: flex-start;
+      padding: 80px 40px 80px;
+    }
+
+    .screen__inner {
+      opacity: 0;
+      transform: translateY(60px);
+      transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      max-width: 953px;
+      width: 66.2%;
+    }
+
+    .screen__inner.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Progressive reveal blocks within a screen */
+    .cs-reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .cs-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in {
+      opacity: 0;
+      transition: opacity 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+    }
+
+    /* ═══════════════════════════════
+       Screen 1 — Cover
+    ═══════════════════════════════ */
+    .screen-cover { padding-top: 80px; padding-bottom: 0; min-height: 90vh; }
+
+    .cover-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 4.44vw, 64px);
+      font-weight: 900;
+      line-height: 1.15;
+      color: #DCEAFF;
+      margin-bottom: 14px;
+    }
+
+    .cover-heading .accent { color: #2C7DFF; }
+
+    .cover-subtitle {
+      font-family: var(--font-heading);
+      font-size: clamp(13px, 1.25vw, 18px);
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 48px;
+    }
+
+    .cover-logo {
+      max-width: 300px;
+      width: 45%;
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* ═══════════════════════════════
+       Case Study Typography
+    ═══════════════════════════════ */
+    .cs-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(24px, 2.78vw, 40px);
+      font-weight: 900;
+      color: var(--heading-color);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .cs-heading--inline-logo {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .cs-heading--inline-logo img {
+      height: 1em;
+      width: auto;
+      vertical-align: baseline;
+      mix-blend-mode: screen;
+    }
+
+    .cs-subheading {
+      font-family: var(--font-heading);
+      font-size: clamp(18px, 1.67vw, 24px);
+      font-weight: 900;
+      color: var(--heading-color);
+      line-height: 1.3;
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .cs-text {
+      font-family: var(--font-heading);
+      font-size: clamp(15px, 1.39vw, 20px);
+      font-weight: 400;
+      color: rgba(220, 234, 255, 0.82);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .cs-text strong {
+      font-weight: 700;
+      font-style: italic;
+      color: #DCEAFF;
+    }
+
+    .cs-highlight {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: clamp(14px, 1.25vw, 18px);
+      font-weight: 400;
+      color: rgba(220, 234, 255, 0.82);
+      line-height: 1.7;
+      background: var(--highlight-bg);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 12px 0;
+      text-decoration: none;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+
+    .cs-highlight:hover {
+      background: rgba(220, 234, 255, 0.2);
+    }
+
+    .cs-highlight strong {
+      font-weight: 700;
+      font-style: italic;
+      color: #DCEAFF;
+    }
+
+    .cs-list {
+      font-family: var(--font-heading);
+      font-size: clamp(15px, 1.39vw, 20px);
+      font-weight: 400;
+      color: rgba(220, 234, 255, 0.82);
+      line-height: 1.7;
+      margin: 4px 0 8px 20px;
+      list-style: disc;
+    }
+
+    .cs-list li {
+      margin-bottom: 2px;
+    }
+
+    .cs-list li strong {
+      font-weight: 700;
+      font-style: italic;
+      color: #DCEAFF;
+    }
+
+    /* Big quote block */
+    .cs-bigquote {
+      font-family: var(--font-heading);
+      font-size: clamp(20px, 2.5vw, 36px);
+      font-weight: 700;
+      color: #DCEAFF;
+      line-height: 1.35;
+      text-align: center;
+      padding: 48px 40px;
+      margin: 48px 0;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .cs-bigquote .accent {
+      color: var(--blue-2);
+    }
+
+    /* Section spacer */
+    .cs-section {
+      margin-top: 40px;
+    }
+
+    /* ═══════════════════════════════
+       Brand Identity Screen
+    ═══════════════════════════════ */
+    .brand-logo-construction {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 32px;
+      align-items: center;
+      margin-top: 32px;
+    }
+
+    .brand-logo-construction img {
+      width: 100%;
+      display: block;
+    }
+
+    .brand-logos-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .brand-logos-group h4 {
+      font-family: var(--font-heading);
+      font-size: clamp(16px, 1.39vw, 20px);
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 16px;
+    }
+
+    .brand-logos-pair {
+      display: flex;
+      gap: 10px;
+    }
+
+    .brand-logo-box {
+      border-radius: 10px;
+      overflow: hidden;
+      height: 80px;
+    }
+
+    .brand-logo-box img {
+      height: 100%;
+      width: auto;
+      display: block;
+      border-radius: 10px;
+    }
+
+    /* ═══════════════════════════════
+       Screen 4 — Colors & Typography
+    ═══════════════════════════════ */
+    .typo-wrapper {
+      background: rgba(220, 234, 255, 0.12);
+      border-radius: 50px;
+      padding: 36px 48px 36px 40px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      margin: 0 -40px;
+      width: calc(100% + 80px);
+    }
+
+    .typo-left { display: flex; flex-direction: column; gap: 20px; }
+
+    .typo-desc {
+      font-family: var(--font-heading);
+      font-size: clamp(15px, 1.39vw, 20px);
+      font-weight: 400;
+      color: rgba(220, 234, 255, 0.26);
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+
+    .typo-desc strong { font-weight: 700; color: rgba(220, 234, 255, 0.56); }
+
+    .typo-sample {
+      font-family: var(--font-heading);
+      font-size: clamp(13px, 1.11vw, 16px);
+      font-weight: 700;
+      color: rgba(220, 234, 255, 0.56);
+      line-height: 1.4;
+    }
+
+    .typo-sample--nunito { font-family: var(--font-nunito); font-weight: 600; }
+
+    .typo-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-end;
+      gap: 16px;
+      padding-right: 20px;
+    }
+
+    .typo-letter {
+      font-family: var(--font-heading);
+      font-size: clamp(60px, 8vw, 130px);
+      font-weight: 900;
+      color: #FF7A74;
+      line-height: 0.85;
+    }
+
+    .typo-letter--nunito { font-family: var(--font-nunito); font-weight: 400; }
+
+    .typo-note {
+      font-family: var(--font-nunito);
+      font-size: clamp(11px, 0.9vw, 13px);
+      font-weight: 700;
+      color: rgba(220, 234, 255, 0.56);
+      margin-top: 6px;
+      text-align: right;
+    }
+
+    .palette-wrap {
+      background: rgba(220, 234, 255, 0.12);
+      border-radius: 30px;
+      padding: 28px 48px 28px 40px;
+      margin: 12px -40px 0;
+      width: calc(100% + 80px);
+    }
+
+    .palette-wrap img { width: 100%; display: block; border-radius: 16px; }
+
+    /* ═══════════════════════════════
+       Screen 5 — How interaction works
+    ═══════════════════════════════ */
+    .s5-content {
+      position: relative;
+    }
+
+    .s5-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .s5-panda-left {
+      position: absolute;
+      left: 3%;
+      bottom: 55%;
+      width: 200px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .s5-panda-right {
+      position: absolute;
+      right: 0;
+      top: 5%;
+      width: 160px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .s5-subheading {
+      font-family: var(--font-heading);
+      font-size: clamp(24px, 2.78vw, 40px);
+      font-weight: 900;
+      color: var(--heading-color);
+      line-height: 1.2;
+      margin: 28px 0 12px;
+    }
+
+    .s5-subheading .accent {
+      color: #FF8E8A;
+    }
+
+    .s5-app-overview {
+      margin-top: 40px;
+      width: calc(100% + 240px);
+      margin-left: -120px;
+    }
+
+    .s5-app-overview img {
+      width: 100%;
+      display: block;
+      border-radius: 24px;
+    }
+
+    /* ═══════════════════════════════
+       Screen 6 — Rewards
+    ═══════════════════════════════ */
+    .s6-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .s6-pink-circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .s6-pink-circle--1 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #FF7A74, #FF8E8A);
+      top: 45%; right: 10%;
+    }
+
+    .s6-pink-circle--2 {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, #FF8E8A, #FF7A74);
+      bottom: 5%; left: 15%;
+    }
+
+    .s6-pink-circle--3 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #FF7A74, transparent 70%);
+      top: 50%; left: 40%;
+    }
+
+    .s6-badges {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      margin-top: 28px;
+      width: calc(100% + 200px);
+      margin-left: -100px;
+    }
+
+    .s6-badge--meditation,
+    .s6-badge--cart {
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.3s;
+      cursor: pointer;
+    }
+
+    .s6-badge--meditation:hover,
+    .s6-badge--cart:hover {
+      transform: scale(1.08);
+      filter: brightness(1.15) drop-shadow(0 0 16px rgba(255, 122, 116, 0.35));
+    }
+
+    .s6-badge--meditation img,
+    .s6-badge--cart img {
+      display: block;
+    }
+
+    .s6-badge--cart {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    .s6-items {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+      width: calc(100% + 200px);
+      margin-left: -100px;
+    }
+
+    .s6-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.35s;
+      cursor: pointer;
+    }
+
+    .s6-item:hover {
+      transform: scale(1.05);
+      filter: brightness(1.12) drop-shadow(0 0 24px rgba(255, 122, 116, 0.3));
+    }
+
+    .s6-item img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .s6-item--pajamas {
+      grid-column: 1;
+    }
+
+    .s6-item--socks {
+      grid-column: 2 / 4;
+    }
+
+    /* ═══════════════════════════════
+       Screen 9 — Previous Concepts
+    ═══════════════════════════════ */
+    .s9-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .s9-row--reverse {
+      direction: rtl;
+    }
+
+    .s9-row--reverse > * {
+      direction: ltr;
+    }
+
+    .s9-row img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+    }
+
+    .s9-final {
+      margin-top: 24px;
+      width: calc(100% + 160px);
+      margin-left: -80px;
+    }
+
+    .s9-final img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+    }
+
+    /* ═══════════════════════════════
+       Placeholder screens
+    ═══════════════════════════════ */
+    .t-large {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 2.8vw, 36px);
+      font-weight: 900;
+      color: var(--heading-color);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .t-medium {
+      font-family: var(--font-heading);
+      font-size: clamp(15px, 1.5vw, 22px);
+      font-weight: 400;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+    }
+
+    .t-body {
+      font-family: var(--font-nunito);
+      font-size: clamp(14px, 1.2vw, 17px);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .t-accent { color: #2C7DFF; }
+
+    .screen-number {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.3);
+      margin-bottom: 24px;
+    }
+
+    .screen-image--placeholder {
+      width: 100%;
+      max-width: 800px;
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      margin: 32px auto 0;
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+    }
+
+    /* ═══════════════════════════════
+       Responsive
+    ═══════════════════════════════ */
+    @media (max-width: 768px) {
+      .screen { padding: 40px 20px; }
+      .screen--long { padding: 80px 20px 60px; }
+
+      .screen__inner { width: 90%; }
+
+      .bg-circle { filter: blur(80px); opacity: 0.25; }
+      .bg-circle--1 { width: 350px; height: 350px; }
+      .bg-circle--2 { width: 300px; height: 300px; }
+      .bg-circle--3 { width: 250px; height: 250px; }
+      .bg-circle--4 { width: 200px; height: 200px; }
+      .bg-circle--5 { width: 250px; height: 250px; }
+
+      .nav { gap: 2px; padding: 8px 14px; }
+      .nav a { font-size: 12px; padding: 6px 10px; }
+
+      .cover-logo { width: 50%; }
+      .s5-panda-left, .s5-panda-right { display: none; }
+      .s5-app-overview { width: 100%; margin-left: 0; }
+      .s6-items { grid-template-columns: 1fr 1fr; width: 100%; margin-left: 0; }
+      .s6-item--socks { grid-column: span 1; }
+      .s6-badges { width: 100%; margin-left: 0; }
+      .s6-pink-circle { width: 250px !important; height: 250px !important; }
+      .s9-row { grid-template-columns: 1fr; }
+      .s9-row--reverse { direction: ltr; }
+      .s9-final { width: 100%; margin-left: 0; }
+
+      .cs-bigquote { padding: 32px 24px; }
+
+      .brand-logo-construction { grid-template-columns: 1fr; }
+      .brand-logos-row { grid-template-columns: 1fr; gap: 24px; }
+      .typo-wrapper { grid-template-columns: 1fr; border-radius: 30px; padding: 28px; width: 100%; margin: 0; }
+      .palette-wrap { border-radius: 20px; padding: 24px; width: 100%; margin: 12px 0 0; }
+      .typo-letter { font-size: 70px; }
+    }
+
+    @media (max-width: 480px) {
+      .nav { gap: 1px; padding: 6px 10px; }
+      .nav a { font-size: 11px; padding: 5px 7px; }
+      .screen__inner { width: 92%; }
+    }
+    /* ═══════════════════════════════
+       Footer Links
+    ═══════════════════════════════ */
+    .footer-link {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(220, 234, 255, 0.5);
+      text-decoration: none;
+      padding: 8px 16px;
+      position: relative;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .footer-link:hover {
+      color: #DCEAFF;
+    }
+
+    .footer-link::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 16px;
+      right: 16px;
+      height: 1px;
+      background: #DCEAFF;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .footer-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ═══════════════════════════════
+       Lightbox
+    ═══════════════════════════════ */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow-y: auto;
+      padding: 40px 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+      cursor: zoom-out;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox img {
+      max-width: 92vw;
+      border-radius: 16px;
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .lightbox.active img {
+      transform: scale(1);
+    }
+
+    /* ═══════════════════════════════
+       About Modal
+    ═══════════════════════════════ */
+    .about-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s;
+    }
+
+    .about-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .about-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      z-index: 151;
+      width: 92%;
+      max-width: 1060px;
+      background: rgba(26, 26, 26, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 60px 56px;
+      color: #ffffff;
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.7;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+
+    .about-modal.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .about-modal strong {
+      font-weight: 700;
+    }
+
+    .about-modal p {
+      margin-bottom: 20px;
+    }
+
+    .about-modal p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ═══════════════════════════════
+       Contact Modal
+    ═══════════════════════════════ */
+    .contact-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      z-index: 151;
+      width: 88%;
+      max-width: 820px;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 0;
+      color: #000;
+      font-family: 'Albert Sans', sans-serif;
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+      display: flex;
+      flex-wrap: wrap;
+      overflow: hidden;
+    }
+    .contact-modal.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: all;
+    }
+    .contact-img {
+      flex-shrink: 0;
+      width: 260px;
+      padding: 24px 28px 0 0;
+      display: flex;
+      align-items: flex-end;
+      order: 2;
+    }
+    .contact-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .contact-body {
+      flex: 1;
+      min-width: 300px;
+      padding: 48px 40px 24px 52px;
+      order: 1;
+    }
+    .contact-modal h3 { font-size: 32px; font-weight: 900; margin-bottom: 36px; }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .contact-item:hover { opacity: 0.7; }
+    .contact-item svg { width: 36px; height: 36px; flex-shrink: 0; }
+    .contact-item-text strong { display: block; font-size: 18px; font-weight: 700; }
+    .contact-item-text span { font-size: 15px; color: #333; text-decoration: underline; text-underline-offset: 3px; }
+    .contact-footer { width: 100%; text-align: center; font-size: 15px; color: #666; padding: 0 52px 36px; order: 3; }
+    .copied-toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1a1a1a;
+      color: #fff;
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: 50px;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 200;
+      pointer-events: none;
+    }
+    .copied-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    @media (max-width: 768px) {
+      .contact-modal { flex-direction: column; }
+      .contact-img { display: none; }
+      .contact-body { padding: 36px 28px; }
+      .contact-modal h3 { font-size: 24px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <div class="nav-wrapper" id="navbar">
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="#" onclick="openAbout(event)">About</a>
+      <a href="index.html#projects">Projects / Work</a>
+      <a href="#">Download CV</a>
+      <a href="#" onclick="openContact(event)">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Animated Background -->
+  <div class="bg-fixed" id="bgFixed">
+    <div class="bg-circle bg-circle--1" id="c1"></div>
+    <div class="bg-circle bg-circle--2" id="c2"></div>
+    <div class="bg-circle bg-circle--3" id="c3"></div>
+    <div class="bg-circle bg-circle--4" id="c4"></div>
+    <div class="bg-circle bg-circle--5" id="c5"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- ════════════════ Screen 1 — Cover ════════════════ -->
+    <section class="screen screen-cover">
+      <div class="screen__inner">
+        <h1 class="cover-heading"><span style="white-space:nowrap">Where productivity stops —</span><br><span style="white-space:nowrap">and you <span class="accent">begin</span></span></h1>
+        <p class="cover-subtitle">Micro-moments of rest integrated<br>right into your tools</p>
+        <img src="images/lumi-logo.png" alt="Lumi" class="cover-logo" />
+      </div>
+    </section>
+
+    <!-- ════════════════ Screen 2 — Problem ════════════════ -->
+    <section class="screen screen--long" data-circles="shift1">
+      <div class="screen__inner">
+
+        <div class="cs-reveal">
+          <h2 class="cs-heading">Problem</h2>
+          <p class="cs-text">Companies are quietly paying a <strong>burnout tax</strong>: high turnover, declining productivity, and rising sick leaves. Teams lose focus, projects slow down, and the business bleeds money&nbsp;—</p>
+          <a href="https://www.ajpmonline.org/article/S0749-3797(25)00023-6/abstract" target="_blank" class="cs-highlight">According to research, employee burnout can cost a company <strong>$4,000 to $21,000</strong> per employee per year. For a company with <strong>1,000</strong> employees, this amounts to approximately <strong>$5 million</strong> in annual losses.</a>
+        </div>
+
+        <div class="cs-reveal">
+          <p class="cs-text">At the same time, existing wellness tools fail. They live <strong>outside the workflow</strong> and feel like another task to complete in an already overloaded day.</p>
+          <p class="cs-text">Hybrid teams add another layer of friction:</p>
+          <ul class="cs-list">
+            <li>office employees feel <strong>drained by forced team-building;</strong></li>
+            <li>remote employees feel <strong>excluded and disconnected</strong> from informal networks.</li>
+          </ul>
+          <p class="cs-text">The result is two cultures inside one company — growing toxicity, lower eNPS, and stalled innovation.</p>
+          <a href="https://wellhub.com/en-us/blog/wellness-and-benefits-programs/cost-of-burnout-roi-preventative-wellness/" target="_blank" class="cs-highlight">According to Viwell, burnout is associated not only with turnover but also with increased healthcare costs: approximately <strong>$125–190 billion</strong> annually are linked to employee mental health issues.</a>
+        </div>
+
+        <div class="cs-reveal">
+          <h3 class="cs-heading" style="margin-top:48px;">Why it matters</h3>
+          <p class="cs-text">Low engagement directly translates into losses:</p>
+          <ul class="cs-list">
+            <li>higher churn among mid-level specialists,</li>
+            <li>loss of expertise,</li>
+            <li>delayed releases,</li>
+            <li>drop in service quality.</li>
+          </ul>
+          <p class="cs-text">The problem isn't that people don't want to engage.<br>The problem is that engagement today requires effort — and effort is the one resource burned-out teams no longer have.</p>
+          <a href="https://www.gallup.com/workplace/349484/state-of-the-global-workplace.aspx" target="_blank" class="cs-highlight">Also, according to Gallup and other studies (via RBC review), up to 48% of employees report that they might leave a company due to burnout.</a>
+        </div>
+
+        <div class="cs-reveal">
+          <div class="cs-bigquote">
+            88% of employees who feel that their company cares about their wellbeing are more <span class="accent">engaged and motivated</span> to contribute.
+          </div>
+        </div>
+
+        <div class="cs-reveal">
+          <div class="cs-section">
+            <h3 class="cs-heading">Why <span style="color:#2C7DFF;">Lumi</span></h3>
+            <p class="cs-text">LUMI integrates rest and light social interaction <strong>into</strong> daily tools — not on top of them.<br>It creates natural, low-effort micro-moments of connection and recovery, without forcing participation.</p>
+            <p class="cs-text">Mechanics like <strong>Stealth Mentor</strong> and <strong>Interest-based Coffee Breaks</strong> turn engagement into something effortless, personal, and psychologically safe.</p>
+            <p class="cs-text">LUMI replaces artificial team-building with small, meaningful actions that rebuild trust, energy, and belonging.</p>
+          </div>
+        </div>
+
+        <div class="cs-reveal">
+          <div class="cs-section">
+            <h2 class="cs-heading">Invisible Work, Invisible Reward</h2>
+            <p class="cs-text" style="font-size:clamp(18px,1.67vw,24px);line-height:1.6;">You have tasks to complete, but there is no recognition for your efforts. Completing tasks becomes an endless process where it's easy to get lost. People need their efforts to be <strong style="font-style:normal;">noticed and appreciated.</strong></p>
+            <div style="margin-top:32px;">
+              <img src="images/bubbles.svg" alt="" style="width:100%;display:block;" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════ Screen 3 — Brand Identity ════════════════ -->
+    <section class="screen screen--long" data-circles="shift2">
+      <div class="screen__inner">
+
+        <div class="cs-reveal">
+          <h2 class="cs-heading">Brand identity</h2>
+          <p class="cs-text" style="color:rgba(220,234,255,0.56);">Lumi — from <strong>"luminous"</strong>. A soft, uplifting word that reflects clarity, energy and emotional lightness at work.</p>
+        </div>
+
+        <div class="cs-reveal">
+          <h3 class="cs-heading" style="margin-top:40px;">Logo Concept</h3>
+          <p class="cs-text">The "i" is transformed into a magic wand — a small spark of recognition that helps employees feel seen, valued and supported.</p>
+        </div>
+
+        <div class="cs-reveal">
+          <div class="brand-logo-construction">
+            <img src="images/logo_typo.svg" alt="Logo construction grid" />
+            <img src="images/phone_mockup.png" alt="Lumi on phone" style="max-width:220px;margin:0 auto;display:block;mix-blend-mode:luminosity;" />
+          </div>
+        </div>
+
+        <div class="cs-reveal">
+          <div class="brand-logos-row">
+            <div class="brand-logos-group">
+              <h4>Primary Logo</h4>
+              <div class="brand-logos-pair">
+                <div class="brand-logo-box brand-logo-box--light">
+                  <img src="images/l1.png" alt="Logo on white" />
+                </div>
+                <div class="brand-logo-box brand-logo-box--dark">
+                  <img src="images/l2.png" alt="Logo on black" />
+                </div>
+              </div>
+            </div>
+            <div class="brand-logos-group">
+              <h4>Logomark</h4>
+              <div class="brand-logos-pair">
+                <div class="brand-logo-box brand-logo-box--light">
+                  <img src="images/l3.png" alt="Logomark light" />
+                </div>
+                <div class="brand-logo-box brand-logo-box--dark">
+                  <img src="images/l4.png" alt="Logomark dark" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════ Screen 4 — Colors & Typography ════════════════ -->
+    <section class="screen" data-circles="shift3" style="text-align:left;">
+      <div class="screen__inner">
+
+        <div class="typo-wrapper">
+          <div class="typo-left">
+            <h2 class="cs-heading" style="color:#FF7A74;white-space:nowrap;">Colors &amp; Typography</h2>
+            <div>
+              <p class="typo-desc">Bold, refined <strong>Literata</strong> shapes the voice of the headlines</p>
+              <p class="typo-sample">ABCDEFGHIJKLMNOPQRSTUVWXYZabc<br>defghijklmnopqrstuvwxyz0123456789!?<br>@#$%&amp;*()—+=/ \:;"',.</p>
+            </div>
+            <div>
+              <p class="typo-desc">Smooth, friendly <strong>Nunito</strong> ensures comfortable, effortless reading.</p>
+              <p class="typo-sample typo-sample--nunito">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef<br>ghijklmnopqrstuvwxyz0123456789!?@#$<br>%&amp;*()—+=/ \:;"',.</p>
+            </div>
+          </div>
+          <div class="typo-right">
+            <div class="typo-letter">Aa</div>
+            <div>
+              <div class="typo-letter typo-letter--nunito">aA</div>
+              <p class="typo-note">#DCEAFF 56-26% opacity</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="palette-wrap">
+          <img src="images/color_palette.png" alt="Color palette" />
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════ Screen 5 — How interaction works ════════════════ -->
+    <section class="screen screen--long s5-section" data-circles="shift4">
+      <img src="images/panda_right.png" alt="" class="s5-panda-left fade-in" />
+      <img src="images/panda_left.png" alt="" class="s5-panda-right fade-in" />
+      <div class="screen__inner">
+        <div class="s5-content">
+
+          <h2 class="cs-heading">How interaction works in LUMI</h2>
+
+          <p class="cs-text">LUMI encourages people to take small moments for themselves every day — to build emotional resilience long before stress reaches a critical point.</p>
+
+          <h3 class="s5-subheading">But how do we <span class="accent">motivate users</span> to actually want to engage?</h3>
+
+          <p class="cs-text">The system is built on <strong>positive reinforcement</strong> and the growth of a personal companion.<br>Every completed activity rewards the user with coins that can be spent in the in-app store on physical merchandise, cinema tickets, or cosmetic upgrades for their character.<br>This gentle reward cycle helps form a new, healthy habit: <strong>taking care of yourself.</strong></p>
+
+          <p class="cs-text">LUMI brings together a variety of practices so that each person can choose what feels right for them — from relaxation and mindfulness to light movement or emotional balancing.<br>All profiles remain <strong>anonymous</strong>, ensuring that communication and social interactions inside the app feel safe, comfortable, and pressure-free.</p>
+
+          <div class="s5-app-overview cs-reveal">
+            <img src="images/app_overview.png" alt="LUMI app overview" style="cursor:zoom-in;" onclick="openLightbox(this.src)" />
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════ Screen 6 — Rewards ════════════════ -->
+    <section class="screen screen--long s6-section" data-circles="shift5">
+      <div class="s6-pink-circle s6-pink-circle--1"></div>
+      <div class="s6-pink-circle s6-pink-circle--2"></div>
+      <div class="s6-pink-circle s6-pink-circle--3"></div>
+      <div class="screen__inner">
+
+        <h2 class="cs-heading">Rewards that support healthy habits</h2>
+
+        <p class="cs-text">LUMI transforms small daily actions into meaningful <strong>motivation</strong>.</p>
+
+        <p class="cs-text">By completing breathing practices, eye exercises or short meditations, users earn coins that can be exchanged for <strong>real rewards</strong>: branded merchandise, small gifts, cinema tickets, or exclusive outfits for their character.</p>
+
+        <p class="cs-text">This system of positive reinforcement helps people build sustainable self-care habits — one small step at a time.</p>
+
+        <div class="s6-badges cs-reveal">
+          <div class="s6-badge--meditation"><img src="images/meditation_badge.png" alt="Meditation Completed" /></div>
+          <div class="s6-badge--cart"><img src="images/money_badge.png" alt="1000 coins" /></div>
+        </div>
+
+        <div class="s6-items">
+          <div class="s6-item cs-reveal"><img src="images/hoodie.png" alt="Lumi hoodie" /></div>
+          <div class="s6-item cs-reveal"><img src="images/panda_sunglasses.png" alt="Panda with sunglasses" /></div>
+          <div class="s6-item cs-reveal"><img src="images/tote_bag.png" alt="Lumi tote bag" /></div>
+          <div class="s6-item s6-item--pajamas cs-reveal"><img src="images/panda_pajamas.png" alt="Panda in pajamas" /></div>
+          <div class="s6-item s6-item--socks cs-reveal"><img src="images/socks.png" alt="Lumi socks" /></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════ Screen 7 — Seamless workplace integration ════════════════ -->
+    <section class="screen screen--long" data-circles="shift6">
+      <div class="screen__inner">
+
+        <h2 class="cs-heading">Seamless workplace integration</h2>
+
+        <p class="cs-text">LUMI gently supports users during their workday without interrupting their flow. Before an important meeting, the system can send a short, unobtrusive reminder: take a quick breathing practice to reduce stress and enter the conversation with a clearer mind.</p>
+
+        <p class="cs-text">This feature takes less than a minute but helps build long-term emotional resilience and creates a healthier work environment. Focus Mode helps you stay fully immersed in the task at hand by gently reducing digital noise.</p>
+
+        <p class="cs-text">When activated, it temporarily silences non-essential notifications, dims background distractions, and launches a simple built-in timer to structure your work into comfortable intervals.</p>
+
+      </div>
+
+      <div class="cs-reveal" style="width:100vw;margin-top:12px;margin-left:calc(-50vw + 50%);">
+        <img src="images/workplace_mockup.png" alt="Workplace integration mockup" style="width:100%;display:block;" />
+      </div>
+
+    </section>
+
+    <!-- ════════════════ Screen 8 — User Flow ════════════════ -->
+    <section class="screen screen--long" data-circles="shift7">
+      <div class="screen__inner">
+
+        <h2 class="cs-heading">User Flow. Main functions</h2>
+
+        <p class="cs-text">A simple user journey: <strong>from the first notification to the final reward.</strong><br>LUMI naturally integrates self-care into a busy workday.</p>
+
+      </div>
+
+      <div class="cs-reveal" style="width:100vw;margin-left:calc(-50vw + 50%);margin-top:24px;">
+        <img src="images/userflow.png" alt="User Flow — Main functions" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox(this.src)" />
+      </div>
+
+    </section>
+
+    <!-- ════════════════ Screen 9 — Previous Concepts ════════════════ -->
+    <section class="screen screen--long" data-circles="shift8">
+      <div class="screen__inner">
+
+        <h2 class="cs-heading">Previous Concepts &amp; Early Explorations</h2>
+
+        <div style="margin-top:32px;"></div>
+
+        <div class="s9-row cs-reveal">
+          <p class="cs-text">The project began with a simple idea: helping employees take small, meaningful breaks during the workday — moments that reduce stress, refresh focus, and bring a bit of variety into the routine.</p>
+          <img src="images/concept1.png" alt="Early concept 1" />
+        </div>
+
+        <div class="s9-row s9-row--reverse cs-reveal">
+          <p class="cs-text">My early explorations were centered around simplicity. The first concept featured a humorous parrot character and a minimal visual style built on black line art. The goal was to create something intentionally light, approachable, and distraction-free. However, as the idea evolved, it became clear that the project needed a richer emotional component and a more engaging interaction model.</p>
+          <img src="images/concept2.png" alt="Early concept 2" />
+        </div>
+
+        <div class="s9-row cs-reveal">
+          <p class="cs-text">The next direction was inspired by tabletop card games — a playful system with structured mechanics and collectible elements. Although visually strong, this approach had a high entry barrier and required too much cognitive effort for a product designed to help people relax rather than concentrate even more.</p>
+          <img src="images/concept3.png" alt="Early concept 3" />
+        </div>
+
+        <p class="cs-text cs-reveal">As the concept continued to develop, the focus shifted toward creating an intuitive, soothing environment with clear navigation and gentle interactions. This led to the final idea: a character inspired by digital pets, something users could care for and gradually grow alongside. This emotional connection supports long-term engagement while keeping the interface clean, warm, and simple to use.</p>
+
+        <div class="s9-final cs-reveal">
+          <img src="images/concept4.png" alt="Final concept" />
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Thanks & Footer -->
+  <section style="text-align:center;padding:60px 24px 40px;position:relative;z-index:1;">
+    <p style="font-family:var(--font-heading);font-size:clamp(24px,2.78vw,40px);font-weight:900;color:var(--heading-color);" class="cs-reveal">Thanks for watching</p>
+  </section>
+
+  <section style="text-align:center;padding:20px 24px 40px;position:relative;z-index:1;">
+    <div class="cs-reveal" style="display:flex;align-items:center;justify-content:center;gap:16px;font-family:var(--font-heading);font-size:15px;font-weight:400;color:rgba(220,234,255,0.56);">
+      <span>Feel free to reach out — I always reply</span>
+      <a href="https://t.me/nihil_aluid" target="_blank" aria-label="Telegram" style="display:flex;align-items:center;">
+        <svg viewBox="0 0 24 24" fill="#DCEAFF" width="24" height="24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      </a>
+      <a href="mailto:maggieart007@gmail.com" aria-label="Email" style="display:flex;align-items:center;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#DCEAFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/margarita-remneva-602923229" target="_blank" aria-label="LinkedIn" style="display:flex;align-items:center;">
+        <svg viewBox="0 0 24 24" fill="#DCEAFF" width="24" height="24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <div style="width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(220,234,255,0.2),rgba(220,234,255,0.2),transparent);max-width:1100px;margin:0 auto;position:relative;z-index:1;"></div>
+
+  <footer style="padding:28px 24px 40px;text-align:center;position:relative;z-index:1;">
+    <nav style="display:inline-flex;align-items:center;gap:20px;padding:10px 32px;border:1px solid rgba(220,234,255,0.15);border-radius:50px;">
+      <a href="index.html" class="footer-link">Home</a>
+      <a href="#" onclick="openAbout(event)" class="footer-link">About</a>
+      <a href="index.html#projects" class="footer-link">Projects / Work</a>
+      <a href="#" class="footer-link">Download CV</a>
+      <a href="#" onclick="openContact(event)" class="footer-link">Contact</a>
+    </nav>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <!-- About Modal -->
+  <div class="about-overlay" id="aboutOverlay" onclick="closeAbout()"></div>
+  <div class="about-modal" id="aboutModal">
+    <p><strong>I'm a Design Strategist & Concept Designer with 6 years of experience across advertising agencies and major banking/fintech projects.</strong></p>
+    <p>I focus on turning abstract business goals into clear, emotionally engaging visual systems and brand languages. I've helped brands shift audience perception, strengthen long-term loyalty and successfully launch new products and directions — always starting with one key question: what needs to change in how people think, feel, or act?</p>
+    <p>I make strategic decisions at the intersection of business logic and human emotion, whether the goal is to build loyalty in competitive financial markets, attract new audiences or communicate complex ideas in a simple and meaningful way.</p>
+    <p>I'm looking to be a thinking partner within a team — bringing clarity, direction and hands-on strategic experience, not just execution.</p>
+    <p>I believe strong brands are born where deep strategy meets genuine emotion.</p>
+  </div>
+
+  <!-- Contact Modal -->
+  <div class="about-overlay" id="contactOverlay" onclick="closeContact()"></div>
+  <div class="contact-modal" id="contactModal">
+    <div class="contact-body">
+    <h3>Contacts</h3>
+    <div class="contact-item" onclick="copyText('@nihil_aluid')">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      <div class="contact-item-text"><strong>Telegram</strong><span>@nihil_aluid</span></div>
+    </div>
+    <div class="contact-item" onclick="copyText('maggieart007@gmail.com')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+      <div class="contact-item-text"><strong>Mail</strong><span>maggieart007@gmail.com</span></div>
+    </div>
+    <div class="contact-item" onclick="copyText('www.linkedin.com/in/margarita-remneva-602923229')">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      <div class="contact-item-text"><strong>Linkedin</strong><span>www.linkedin.com/in/margarita-remneva-602923229</span></div>
+    </div>
+    </div>
+    </div>
+    <div class="contact-img">
+      <img src="images/contact_illustration.png" alt="" />
+    </div>
+    <div class="contact-footer">Feel free to reach out — I always reply</div>
+  </div>
+  <div class="copied-toast" id="copiedToast">Copied!</div>
+
+  <script>
+    /* ── About Modal ── */
+    function openAbout(e) {
+      e.preventDefault();
+      document.getElementById('aboutOverlay').classList.add('active');
+      document.getElementById('aboutModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeAbout() {
+      document.getElementById('aboutOverlay').classList.remove('active');
+      document.getElementById('aboutModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    /* ── Contact Modal ── */
+    function openContact(e) {
+      e.preventDefault();
+      document.getElementById('contactOverlay').classList.add('active');
+      document.getElementById('contactModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeContact() {
+      document.getElementById('contactOverlay').classList.remove('active');
+      document.getElementById('contactModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('copiedToast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1500);
+      });
+    }
+
+    /* ── Lightbox ── */
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightboxImg').src = src;
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLightbox(); closeAbout(); closeContact(); } });
+    /* ── Navbar ── */
+    const navbar = document.getElementById('navbar');
+    let lastScrollY = window.scrollY;
+    let navVisible = true;
+    let initialAnimDone = false;
+
+    setTimeout(() => {
+      initialAnimDone = true;
+      navbar.style.animation = 'none';
+      navbar.classList.add('visible');
+    }, 1200);
+
+    window.addEventListener('scroll', () => {
+      if (!initialAnimDone) return;
+      const y = window.scrollY;
+      if (y > lastScrollY && y > 80) {
+        if (navVisible) { navbar.classList.remove('visible'); navbar.classList.add('hidden'); navVisible = false; }
+      } else if (y < lastScrollY) {
+        if (!navVisible) { navbar.classList.remove('hidden'); navbar.classList.add('visible'); navVisible = true; }
+      }
+      lastScrollY = y;
+    }, { passive: true });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!initialAnimDone) return;
+      if (e.clientY < 80 && !navVisible) {
+        navbar.classList.remove('hidden');
+        navbar.classList.add('visible');
+        navVisible = true;
+      }
+    });
+
+    /* ── Scroll reveal ── */
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.screen__inner, .cs-reveal, .fade-in').forEach(el => revealObs.observe(el));
+
+    /* ── Background circles shift on screen change ── */
+    const circlePositions = {
+      default: [
+        { top: '-10%', left: '-5%' },
+        { top: '30%', right: '-10%' },
+        { bottom: '10%', left: '20%' },
+        { top: '55%', left: '-8%' },
+        { bottom: '-5%', right: '15%' }
+      ],
+      shift1: [
+        { top: '-20%', left: '10%' },
+        { top: '15%', right: '-15%' },
+        { bottom: '25%', left: '5%' },
+        { top: '65%', left: '15%' },
+        { bottom: '-15%', right: '5%' }
+      ],
+      shift2: [
+        { top: '5%', left: '-15%' },
+        { top: '40%', right: '5%' },
+        { bottom: '5%', left: '35%' },
+        { top: '30%', left: '-12%' },
+        { bottom: '10%', right: '25%' }
+      ],
+      shift3: [
+        { top: '-5%', left: '20%' },
+        { top: '20%', right: '-5%' },
+        { bottom: '15%', left: '10%' },
+        { top: '50%', left: '5%' },
+        { bottom: '0%', right: '10%' }
+      ]
+    };
+
+    const circles = [
+      document.getElementById('c1'),
+      document.getElementById('c2'),
+      document.getElementById('c3'),
+      document.getElementById('c4'),
+      document.getElementById('c5')
+    ];
+
+    let currentShift = 'default';
+
+    const shiftObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const shift = e.target.dataset.circles || 'default';
+          if (shift !== currentShift) {
+            currentShift = shift;
+            const pos = circlePositions[shift] || circlePositions.shift1;
+            circles.forEach((c, i) => {
+              if (!pos[i]) return;
+              // Reset all directional props
+              c.style.top = 'auto';
+              c.style.bottom = 'auto';
+              c.style.left = 'auto';
+              c.style.right = 'auto';
+              // Apply new positions
+              Object.entries(pos[i]).forEach(([prop, val]) => {
+                c.style[prop] = val;
+              });
+            });
+          }
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.screen').forEach(el => shiftObs.observe(el));
+  </script>
+</body>
+</html>

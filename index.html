@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Remneva Margarita — Design Strategist & Concept Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;900&family=Bayon&family=Caveat:wght@400;500;600;700&family=Literata:wght@400;700&family=Nunito:wght@400&display=swap" rel="stylesheet" />
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.69/build/spline-viewer.js"></script>
+  <style>
+    @font-face {
+      font-family: 'UraBumBumSP';
+      src: url('fonts/UraBumBumSP.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --off-white: #f5f5f5;
+      --gray-light: #e0e0e0;
+      --gray-mid: #888888;
+      --gray-dark: #333333;
+      --font-display: 'UraBumBumSP', cursive;
+      --font-heading: 'Bayon', sans-serif;
+      --font-body: 'Albert Sans', sans-serif;
+      --font-handwritten: 'Caveat', cursive;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--black);
+      background: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ═══════════════════════════════
+       Navigation
+    ═══════════════════════════════ */
+    .nav-wrapper {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-120px);
+      z-index: 100;
+      animation: navSlideIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .nav-wrapper.hidden {
+      transform: translateX(-50%) translateY(-120px);
+    }
+
+    .nav-wrapper.visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @keyframes navSlideIn {
+      to {
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 32px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
+      padding: 8px 16px;
+      border-radius: 20px;
+      position: relative;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .nav a:hover {
+      color: #ffffff;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 16px;
+      right: 16px;
+      height: 1px;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ═══════════════════════════════
+       Hero Section — fullscreen spline bg
+    ═══════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Spline as full background */
+    .hero-spline-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-spline-bg spline-viewer {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Text overlay — non-interactive, doesn't react to mouse */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding: 100px 24px 80px;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.6s forwards;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-body);
+      font-size: clamp(15px, 1.8vw, 20px);
+      font-weight: 300;
+      color: #ffffff;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.8s forwards;
+    }
+
+    /* Name pinned to bottom of hero */
+    .hero-name-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+      text-align: center;
+      padding: 0 24px 32px;
+      opacity: 0;
+      animation: fadeUp 0.7s 1s forwards;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 9vw, 130px);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      padding-bottom: 10px;
+    }
+
+    /* ═══════════════════════════════
+       Projects Section
+    ═══════════════════════════════ */
+    .projects {
+      padding: 80px 24px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .projects-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .projects-title {
+      font-family: var(--font-body);
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 900;
+      color: var(--black);
+    }
+
+    .projects-hint {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-mid);
+    }
+
+    .project-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .project-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.14);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-card--large {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 9;
+      position: relative;
+    }
+
+    .project-card--large img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Notification badge — slides down from top on hover */
+    .card-badge {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100%);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      max-width: 460px;
+      width: max-content;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s;
+      z-index: 3;
+    }
+
+    .project-card--large:hover .card-badge {
+      transform: translateX(-50%) translateY(20px);
+      opacity: 1;
+    }
+
+    .card-badge__icon {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+    }
+
+    .card-badge__icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .card-badge__text h4 {
+      font-family: 'Literata', serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+
+    .card-badge__text p {
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.4;
+    }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .project-card--small {
+      aspect-ratio: 1 / 1.1;
+      background: var(--gray-light);
+    }
+
+    /* ═══════════════════════════════
+       Tagline & Contact
+    ═══════════════════════════════ */
+    .tagline {
+      padding: 60px 24px 40px;
+      text-align: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .tagline-text {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5.5vw, 90px);
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.2;
+      margin-bottom: 32px;
+      padding-bottom: 8px;
+      white-space: nowrap;
+    }
+
+    .tagline-contact {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--gray-dark);
+      margin-bottom: 40px;
+    }
+
+    .tagline-contact a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      transition: transform 0.25s;
+    }
+
+    .tagline-contact a:hover {
+      transform: scale(1.15);
+    }
+
+    .tagline-contact svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gray-light), var(--gray-light), transparent);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════
+       Footer
+    ═══════════════════════════════ */
+    .footer {
+      padding: 28px 24px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .footer-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 10px 24px;
+      border: 1px solid var(--gray-light);
+      border-radius: 50px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    .footer-nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(51, 51, 51, 0.5);
+      padding: 8px 16px;
+      border-radius: 20px;
+      position: relative;
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+
+    .footer-nav a:hover {
+      color: var(--gray-dark);
+    }
+
+    .footer-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 16px;
+      right: 16px;
+      height: 1px;
+      background: var(--gray-dark);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .footer-nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ═══════════════════════════════
+       Animations
+    ═══════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════
+       Responsive
+    ═══════════════════════════════ */
+    @media (max-width: 768px) {
+      .project-row {
+        grid-template-columns: 1fr;
+      }
+
+      .nav, .footer-nav {
+        gap: 2px;
+        padding: 8px 14px;
+      }
+
+      .nav a, .footer-nav a {
+        font-size: 12px;
+        padding: 6px 10px;
+      }
+
+      .card-badge {
+        display: none !important;
+      }
+
+      .hero-name {
+        font-size: clamp(36px, 12vw, 72px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav {
+        gap: 1px;
+        padding: 6px 10px;
+      }
+
+      .nav a {
+        font-size: 11px;
+        padding: 5px 7px;
+      }
+
+      .hero-name-wrapper {
+        padding: 0 16px 20px;
+      }
+    }
+
+    /* ═══════════════════════════════
+       About Modal
+    ═══════════════════════════════ */
+    .about-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s;
+    }
+
+    .about-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .about-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      z-index: 151;
+      width: 92%;
+      max-width: 1060px;
+      background: rgba(26, 26, 26, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 60px 56px;
+      color: #ffffff;
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.7;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+
+    .about-modal.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .about-modal strong {
+      font-weight: 700;
+    }
+
+    .about-modal p {
+      margin-bottom: 20px;
+    }
+
+    .about-modal p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .about-modal {
+        padding: 40px 28px;
+        font-size: 15px;
+      }
+    }
+
+    /* ═══════════════════════════════
+       Contact Modal
+    ═══════════════════════════════ */
+    .contact-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      z-index: 151;
+      width: 88%;
+      max-width: 820px;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 0;
+      color: #000;
+      font-family: 'Albert Sans', sans-serif;
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+      display: flex;
+      flex-wrap: wrap;
+      overflow: hidden;
+    }
+    .contact-modal.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: all;
+    }
+    .contact-img {
+      flex-shrink: 0;
+      width: 260px;
+      padding: 24px 28px 0 0;
+      display: flex;
+      align-items: flex-end;
+      order: 2;
+    }
+    .contact-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .contact-body {
+      flex: 1;
+      min-width: 300px;
+      padding: 48px 40px 24px 52px;
+      order: 1;
+    }
+    .contact-modal h3 { font-size: 32px; font-weight: 900; margin-bottom: 36px; }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .contact-item:hover { opacity: 0.7; }
+    .contact-item svg { width: 36px; height: 36px; flex-shrink: 0; }
+    .contact-item-text strong { display: block; font-size: 18px; font-weight: 700; }
+    .contact-item-text span { font-size: 15px; color: #333; text-decoration: underline; text-underline-offset: 3px; }
+    .contact-footer { width: 100%; text-align: center; font-size: 15px; color: #666; padding: 0 52px 36px; order: 3; }
+    .copied-toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1a1a1a;
+      color: #fff;
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: 50px;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 200;
+      pointer-events: none;
+    }
+    .copied-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    @media (max-width: 768px) {
+      .contact-modal { padding: 0; flex-direction: column; }
+      .contact-img { display: none; }
+      .contact-body { padding: 36px 28px; }
+      .contact-modal h3 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <div class="nav-wrapper" id="navbar">
+    <nav class="nav">
+      <a href="#hero">Home</a>
+      <a href="#" onclick="openAbout(event)">About</a>
+      <a href="#projects">Projects / Work</a>
+      <a href="#">Download CV</a>
+      <a href="#" onclick="openContact(event)">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-spline-bg">
+      <spline-viewer url="https://prod.spline.design/1gtZ3VIL81FAXJin/scene.splinecode"></spline-viewer>
+    </div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">Design Strategist &amp; Concept Designer</h1>
+      <p class="hero-subtitle">I build brand identities and visual systems driven by strategy</p>
+    </div>
+
+    <div class="hero-name-wrapper">
+      <div class="hero-name">Remneva Margarita</div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="projects" id="projects">
+    <div class="projects-header reveal">
+      <h2 class="projects-title">Projects / Work</h2>
+      <span class="projects-hint">Click on a project to view the full case.</span>
+    </div>
+
+    <div class="project-grid">
+      <a href="lumi.html" class="project-card project-card--large reveal">
+        <img src="images/lumi-card.png" alt="Lumi — Where productivity stops and you begin" />
+        <div class="card-badge">
+          <div class="card-badge__icon">
+            <img src="images/logo_mini.svg" alt="Lumi logo" />
+          </div>
+          <div class="card-badge__text">
+            <h4>Time to pause</h4>
+            <p>Feeling a bit anxious before the meeting? Try a 60-second breathing practice to calm your mind.</p>
+          </div>
+        </div>
+      </a>
+
+      <div class="project-row">
+        <a href="aurum.html" class="project-card project-card--small reveal">
+          <img src="images/project-2.png" alt="Aurum Mundi project" />
+        </a>
+        <a href="#" class="project-card project-card--small reveal">
+          <img src="images/project-3.png" alt="Golden Goods project" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tagline & Contact -->
+  <section class="tagline" id="contact">
+    <div class="tagline-text reveal">For bold and strong brands</div>
+    <div class="tagline-contact reveal">
+      <span>Feel free to reach out — I always reply</span>
+      <a href="https://t.me/nihil_aluid" target="_blank" aria-label="Telegram">
+        <svg viewBox="0 0 24 24" fill="var(--black)"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      </a>
+      <a href="mailto:maggieart007@gmail.com" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--black)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/margarita-remneva-602923229" target="_blank" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="var(--black)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <nav class="footer-nav">
+      <a href="#hero">Home</a>
+      <a href="#" onclick="openAbout(event)">About</a>
+      <a href="#projects">Projects / Work</a>
+      <a href="#">Download CV</a>
+      <a href="#" onclick="openContact(event)">Contact</a>
+    </nav>
+  </footer>
+
+  <!-- About Modal -->
+  <div class="about-overlay" id="aboutOverlay" onclick="closeAbout()"></div>
+  <div class="about-modal" id="aboutModal">
+    <p><strong>I'm a Design Strategist & Concept Designer with 6 years of experience across advertising agencies and major banking/fintech projects.</strong></p>
+    <p>I focus on turning abstract business goals into clear, emotionally engaging visual systems and brand languages. I've helped brands shift audience perception, strengthen long-term loyalty and successfully launch new products and directions — always starting with one key question: what needs to change in how people think, feel, or act?</p>
+    <p>I make strategic decisions at the intersection of business logic and human emotion, whether the goal is to build loyalty in competitive financial markets, attract new audiences or communicate complex ideas in a simple and meaningful way.</p>
+    <p>I'm looking to be a thinking partner within a team — bringing clarity, direction and hands-on strategic experience, not just execution.</p>
+    <p>I believe strong brands are born where deep strategy meets genuine emotion.</p>
+  </div>
+
+  <!-- Contact Modal -->
+  <div class="about-overlay" id="contactOverlay" onclick="closeContact()"></div>
+  <div class="contact-modal" id="contactModal">
+    <div class="contact-body">
+    <h3>Contacts</h3>
+    <div class="contact-item" onclick="copyText('@nihil_aluid')">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      <div class="contact-item-text"><strong>Telegram</strong><span>@nihil_aluid</span></div>
+    </div>
+    <div class="contact-item" onclick="copyText('maggieart007@gmail.com')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+      <div class="contact-item-text"><strong>Mail</strong><span>maggieart007@gmail.com</span></div>
+    </div>
+    <div class="contact-item" onclick="copyText('www.linkedin.com/in/margarita-remneva-602923229')">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      <div class="contact-item-text"><strong>Linkedin</strong><span>www.linkedin.com/in/margarita-remneva-602923229</span></div>
+    </div>
+    </div>
+    </div>
+    <div class="contact-img">
+      <img src="images/contact_illustration.png" alt="" />
+    </div>
+    <div class="contact-footer">Feel free to reach out — I always reply</div>
+  </div>
+  <div class="copied-toast" id="copiedToast">Copied!</div>
+
+  <script>
+    /* ── Navbar: slide in, hide on scroll down, show on mouse near top ── */
+    const navbar = document.getElementById('navbar');
+    let lastScrollY = window.scrollY;
+    let navVisible = true;
+    let initialAnimDone = false;
+
+    setTimeout(() => {
+      initialAnimDone = true;
+      navbar.style.animation = 'none';
+      navbar.classList.add('visible');
+    }, 1200);
+
+    window.addEventListener('scroll', () => {
+      if (!initialAnimDone) return;
+
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        if (navVisible) {
+          navbar.classList.remove('visible');
+          navbar.classList.add('hidden');
+          navVisible = false;
+        }
+      } else if (currentScrollY < lastScrollY) {
+        if (!navVisible) {
+          navbar.classList.remove('hidden');
+          navbar.classList.add('visible');
+          navVisible = true;
+        }
+      }
+
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!initialAnimDone) return;
+      if (e.clientY < 80 && !navVisible) {
+        navbar.classList.remove('hidden');
+        navbar.classList.add('visible');
+        navVisible = true;
+      }
+    });
+
+    /* ── Scroll reveal ── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── About Modal ── */
+    function openAbout(e) {
+      e.preventDefault();
+      document.getElementById('aboutOverlay').classList.add('active');
+      document.getElementById('aboutModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAbout() {
+      document.getElementById('aboutOverlay').classList.remove('active');
+      document.getElementById('aboutModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeAbout(); closeContact(); } });
+
+    /* ── Contact Modal ── */
+    function openContact(e) {
+      e.preventDefault();
+      document.getElementById('contactOverlay').classList.add('active');
+      document.getElementById('contactModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeContact() {
+      document.getElementById('contactOverlay').classList.remove('active');
+      document.getElementById('contactModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('copiedToast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1500);
+      });
+    }
+  </script>
+
+</body>
+</html>
