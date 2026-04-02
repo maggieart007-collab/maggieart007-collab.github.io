@@ -368,14 +368,25 @@
     .copied-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     @media (max-width: 768px) {
+      .nav { gap: 2px; padding: 6px 10px; }
       .nav a { font-size: 11px; padding: 5px 7px; }
       .content { padding: 100px 16px 0; }
-      .block-row { grid-template-columns: 1fr; }
+      .block--centered { max-width: 100%; margin-top: 40px; margin-bottom: 40px; }
       .about-modal { padding: 40px 28px; font-size: 15px; }
       .contact-modal { flex-direction: column; }
       .contact-img { display: none; }
       .contact-body { padding: 36px 28px; }
       .contact-modal h3 { font-size: 24px; }
+
+      /* Footer nav - match header */
+      .footer-bar nav {
+        gap: 2px;
+        padding: 6px 10px;
+      }
+      .footer-link {
+        font-size: 11px;
+        padding: 5px 7px;
+      }
     }
   </style>
 </head>

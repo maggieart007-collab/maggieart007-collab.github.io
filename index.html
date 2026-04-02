@@ -484,46 +484,59 @@
       transform: translateY(0);
     }
 
+    .mob-br { display: none; }
+
     /* ═══════════════════════════════
        Responsive
     ═══════════════════════════════ */
     @media (max-width: 768px) {
+      .mob-br { display: block; }
+
+      .hero-title {
+        text-align: center;
+      }
+
+      .hero-name {
+        font-size: clamp(36px, 12vw, 72px);
+      }
+
+      .hero-name-wrapper {
+        margin-top: -40px;
+      }
+
       .project-row {
         grid-template-columns: 1fr;
       }
 
       .nav, .footer-nav {
         gap: 2px;
-        padding: 8px 14px;
+        padding: 6px 10px;
       }
 
       .nav a, .footer-nav a {
-        font-size: 12px;
-        padding: 6px 10px;
+        font-size: 11px;
+        padding: 5px 7px;
       }
 
       .card-badge {
         display: none !important;
       }
 
-      .hero-name {
-        font-size: clamp(36px, 12vw, 72px);
+      .tagline-contact {
+        flex-wrap: nowrap;
+        gap: 10px;
+        font-size: 13px;
+      }
+
+      .tagline-text {
+        font-size: clamp(28px, 10vw, 48px) !important;
       }
     }
 
     @media (max-width: 480px) {
-      .nav {
-        gap: 1px;
-        padding: 6px 10px;
-      }
-
-      .nav a {
-        font-size: 11px;
-        padding: 5px 7px;
-      }
-
       .hero-name-wrapper {
         padding: 0 16px 20px;
+        margin-top: -30px;
       }
     }
 
@@ -706,7 +719,7 @@
     </div>
 
     <div class="hero-content">
-      <h1 class="hero-title">Design Strategist &amp; Concept Designer</h1>
+      <h1 class="hero-title">Design Strategist <br class="mob-br"/>&amp;<br class="mob-br"/> Concept Designer</h1>
       <p class="hero-subtitle">I build brand identities and visual systems driven by strategy</p>
     </div>
 
