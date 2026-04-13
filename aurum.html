@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aurum Mundi — Remneva Margarita</title>
-  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;900&family=Literata:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;900&family=Literata:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -22,9 +22,19 @@
 
     body {
       background: #ffffff;
-      color: #1a1510;
+      color: #723900;
       font-family: var(--font-body);
       overflow-x: hidden;
+    }
+
+    /* White frame container - all content sits inside */
+    .page-frame {
+      padding: 24px;
+      background: #ffffff;
+    }
+    .page-inner {
+      background: #ffffff;
+      overflow: hidden;
     }
 
     /* ═══════════════════════════════
@@ -88,60 +98,257 @@
     /* ═══════════════════════════════
        Content
     ═══════════════════════════════ */
-    .content {
-      max-width: 100%;
-      margin: 0 auto;
-      padding: 100px 32px 0;
+    .case {
+      font-family: 'Zilla Slab', serif;
+      color: #723900;
     }
 
-    .block {
-      margin-bottom: 16px;
+    .case .reveal {
       opacity: 0;
       transform: translateY(40px);
-      transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: opacity 1s cubic-bezier(.25,.46,.45,.94),
+                  transform 1s cubic-bezier(.25,.46,.45,.94);
+    }
+    .case .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* — Hero (sage with portrait + dunes + sand continuation with desc inside) — */
+    .hero-aurum {
+      position: relative;
+      background: #d6dccf;
+    }
+    .hero-aurum-img {
+      width: 100%;
+      display: block;
+    }
+    /* Title + intro on left sage area, shifted right */
+    .hero-aurum-overlay {
+      position: absolute;
+      top: 0;
+      left: 8%;
+      width: 50%;
+      height: calc(100% - 280px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 130px 40px 0;
+      pointer-events: none;
+    }
+    .hero-title {
+      font-family: 'Zilla Slab', serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: clamp(34px, 4.5vw, 60px);
+      color: #723900;
+      text-align: center;
+      letter-spacing: -0.005em;
+      margin-bottom: 60px;
+      line-height: 1.1;
+    }
+    .hero-intro {
+      font-size: 14px;
+      line-height: 1.85;
+      color: #723900;
+      text-align: center;
+      max-width: 480px;
+    }
+    .hero-intro p { margin-bottom: 0; }
+
+    /* Logo over dunes — smaller */
+    .hero-logo-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: 220px;
+      transform: translateX(-50%);
+      width: clamp(220px, 24vw, 340px);
+      pointer-events: none;
+    }
+    .hero-logo-wrap img { width: 100%; height: auto; display: block; }
+
+    /* Logo description sits INSIDE the hero image, at the bottom */
+    .hero-logo-desc {
+      position: absolute;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      max-width: 880px;
+      width: calc(100% - 96px);
+      text-align: center;
+      font-family: 'Zilla Slab', serif;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #723900;
+      pointer-events: none;
     }
 
-    .block.visible {
-      opacity: 1;
-      transform: translateY(0);
+    /* — Section 2: Logo / Palette / Type — */
+    .brand-row {
+      max-width: 1100px;
+      margin: 90px auto 0;
+      padding: 0 60px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1.1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .brand-col-logo img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .brand-col-palette { text-align: center; }
+    .brand-col-palette img {
+      max-width: 200px;
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .brand-col-palette .cap {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #723900;
+    }
+    .brand-col-type { text-align: center; }
+    .brand-col-type .name {
+      font-family: 'Zilla Slab', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: #723900;
+      line-height: 1;
+    }
+    .brand-col-type .aa {
+      font-family: 'Zilla Slab', serif;
+      font-size: 56px;
+      font-weight: 700;
+      color: #723900;
+      line-height: 1;
+      margin-top: 8px;
+    }
+    .brand-col-type .alpha {
+      font-family: 'Zilla Slab', serif;
+      font-size: 11px;
+      line-height: 1.5;
+      word-break: break-all;
+      color: #723900;
+      margin-top: 14px;
+      max-width: 260px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .block img {
+    /* — Section 3: Project Brief — text vertically centered against image — */
+    .brief-row {
+      max-width: 1200px;
+      margin: 90px auto 0;
+      padding: 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .brief-row img { width: 100%; height: auto; display: block; }
+    .brief-text h2 {
+      font-family: 'Zilla Slab', serif;
+      font-weight: 700;
+      font-size: 44px;
+      margin-bottom: 26px;
+      color: #723900;
+      line-height: 1;
+    }
+    .brief-text h3 {
+      font-family: 'Zilla Slab', serif;
+      font-weight: 400;
+      font-size: 22px;
+      margin-top: 18px;
+      margin-bottom: 6px;
+      color: #723900;
+    }
+    .brief-text p, .brief-text li {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #723900;
+    }
+    .brief-text ul { margin: 0; padding-left: 20px; }
+
+    /* — Section 4: Fragrance Mood (caption removed) — */
+    .mood-section {
+      max-width: 1200px;
+      margin: 100px auto 0;
+      padding: 0 60px;
+    }
+    .mood-section img { width: 100%; height: auto; display: block; }
+
+    /* — Section 5: Impact & Results — text vertically centered against image — */
+    .impact-row {
+      max-width: 1200px;
+      margin: 100px auto 0;
+      padding: 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .impact-text h2 {
+      font-family: 'Zilla Slab', serif;
+      font-weight: 700;
+      font-size: 44px;
+      margin-bottom: 22px;
+      color: #723900;
+      line-height: 1;
+    }
+    .impact-text .lead {
+      font-size: 22px;
+      line-height: 1.35;
+      font-weight: 400;
+      color: #723900;
+      margin-bottom: 22px;
+    }
+    .impact-text p, .impact-text li {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #723900;
+      margin-bottom: 4px;
+    }
+    .impact-text ul { margin: 6px 0 0; padding-left: 20px; }
+    .impact-img-wrap img {
       width: 100%;
       height: auto;
       display: block;
     }
-
-    .block--centered {
-      max-width: 958px;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 75px;
-      margin-bottom: 75px;
+    .impact-img-wrap .cap {
+      margin-top: 12px;
+      text-align: right;
+      font-size: 11px;
+      color: #723900;
     }
 
-    .block-row {
+    /* — Section 6: Two image columns — */
+    .duo-row {
+      max-width: 1200px;
+      margin: 80px auto 0;
+      padding: 0 60px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      gap: 24px;
     }
-
-    .block-row.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .duo-col img { width: 100%; height: auto; display: block; }
+    .duo-col .cap {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #723900;
     }
+    .duo-col--right .cap { text-align: right; }
 
-    .block-row img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    /* — Closing line — */
+    .closing-line {
+      text-align: center;
+      padding: 70px 24px 30px;
+      font-size: 16px;
+      color: #723900;
+      font-family: 'Zilla Slab', serif;
     }
 
     /* ═══════════════════════════════
@@ -192,7 +399,7 @@
     }
 
     .footer-bar {
-      padding: 28px 24px 40px;
+      padding: 16px 24px 24px;
       text-align: center;
     }
 
@@ -370,13 +577,49 @@
     @media (max-width: 768px) {
       .nav { gap: 2px; padding: 6px 10px; }
       .nav a { font-size: 11px; padding: 5px 7px; }
-      .content { padding: 100px 16px 0; }
-      .block--centered { max-width: 100%; margin-top: 40px; margin-bottom: 40px; }
       .about-modal { padding: 40px 28px; font-size: 15px; }
       .contact-modal { flex-direction: column; }
       .contact-img { display: none; }
       .contact-body { padding: 36px 28px; }
       .contact-modal h3 { font-size: 24px; }
+
+      /* Smaller frame on mobile */
+      .page-frame { padding: 12px; }
+
+      /* New aurum sections — mobile */
+      .hero-aurum-overlay { padding: 40px 16px 0; height: auto; width: 100%; position: relative; background: #d6dccf; left: 0; }
+      .hero-aurum-img { display: none; }
+      .hero-aurum { background: #d6dccf; }
+      .hero-aurum::after {
+        content: '';
+        display: block;
+        background: url('images/aurum_01.png') no-repeat center bottom / cover;
+        height: 280px;
+      }
+      .hero-title { font-size: 28px !important; margin-bottom: 24px; }
+      .hero-intro { font-size: 12px; max-width: 100%; }
+      .hero-logo-wrap { position: relative; bottom: auto; left: auto; transform: none; margin: 30px auto 20px; width: 60%; }
+      .hero-logo-desc { position: relative; bottom: auto; left: auto; transform: none; width: auto; padding: 24px 20px 30px; font-size: 13px; }
+
+      .brand-row { grid-template-columns: 1fr; gap: 36px; padding: 0 20px; margin-top: 50px; }
+      .brand-col-type .name { font-size: 30px; }
+      .brand-col-type .aa { font-size: 44px; }
+      .brand-col-type .alpha { font-size: 10px; }
+
+      .brief-row { grid-template-columns: 1fr; gap: 28px; padding: 0 20px; margin-top: 60px; }
+      .brief-text h2 { font-size: 32px; }
+      .brief-text h3 { font-size: 18px; }
+
+      .mood-section { padding: 0 20px; margin-top: 60px; }
+
+      .impact-row { grid-template-columns: 1fr; gap: 28px; padding: 0 20px; margin-top: 60px; }
+      .impact-text h2 { font-size: 32px; }
+      .impact-text .lead { font-size: 18px; }
+
+      .duo-row { grid-template-columns: 1fr; gap: 24px; padding: 0 20px; margin-top: 50px; }
+      .duo-col--right .cap { text-align: left; }
+
+      .closing-line { padding: 50px 20px 24px; font-size: 14px; }
 
       /* Footer nav - match header */
       .footer-bar nav {
@@ -392,6 +635,9 @@
 </head>
 <body>
 
+<div class="page-frame">
+<div class="page-inner">
+
   <!-- Navigation -->
   <div class="nav-wrapper" id="navbar">
     <nav class="nav">
@@ -404,38 +650,106 @@
   </div>
 
   <!-- Content -->
-  <div class="content">
-    <div class="block"><img src="images/aurum1.png" alt="Logo Development" /></div>
-    <div class="block block--centered"><img src="images/aurum2.png" alt="Brand Identity — Logo, Colors & Typography" /></div>
-    <div class="block"><img src="images/aurum3.png" alt="Fragrance Mood" /></div>
-    <div class="block-row">
-      <img src="images/aurum4.png" alt="Design & Visual Concept 1" />
-      <img src="images/aurum5.png" alt="Design & Visual Concept 2" />
-    </div>
-  </div>
+  <main class="case">
 
-  <!-- Thanks -->
-  <div class="thanks block">
-    <p>Thanks for watching</p>
-  </div>
+    <!-- HERO -->
+    <section class="hero-aurum reveal">
+      <img class="hero-aurum-img" src="images/aurum_01.png" alt="Aurum Mundi — Logo development hero" />
+      <div class="hero-aurum-overlay">
+        <h1 class="hero-title">logo development</h1>
+        <div class="hero-intro">
+          <p>Alchemist's Essence is a story woven from the threads of past and present.</p>
+          <p>&nbsp;</p>
+          <p>Inspired by ancient rituals, natural forces, and alchemical symbolism, the fragrance takes shape in a clean, contemporary design.</p>
+          <p>&nbsp;</p>
+          <p>This project explores the balance between tactile materiality and visual lightness, between archetypes and modern relevance.</p>
+        </div>
+      </div>
+      <div class="hero-logo-wrap">
+        <img src="images/aurum_logo.png" alt="AURUM MUNDI — Alchemist's Essence" />
+      </div>
+      <p class="hero-logo-desc">
+        The AURUM MUNDI logo captures the spirit of alchemical exploration and high fashion aesthetics. The typeface merges precise geometry with subtle asymmetry, evoking a sense of modern mysticism. The custom D features an abstract alchemical diagram — a symbol of transformation, pursuit of perfection, and inner light. It's a visual metaphor for the golden ratio, enclosed within the silhouette of a perfume bottle.
+      </p>
+    </section>
 
-  <!-- Contact Row -->
-  <div class="contact-row">
-    <div class="contact-row-inner">
-      <span>Feel free to reach out — I always reply</span>
-      <a href="https://t.me/nihil_aluid" target="_blank" aria-label="Telegram">
-        <svg viewBox="0 0 24 24" fill="#1a1510" width="24" height="24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
-      </a>
-      <a href="mailto:maggieart007@gmail.com" aria-label="Email">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#1a1510" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
-      </a>
-      <a href="https://www.linkedin.com/in/margarita-remneva-602923229" target="_blank" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24" fill="#1a1510" width="24" height="24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-    </div>
-  </div>
+    <!-- BRAND ROW: logo / palette / typography -->
+    <section class="brand-row reveal">
+      <div class="brand-col brand-col-logo">
+        <img src="images/aurum_02.png" alt="AURUM MUNDI logo construction" />
+      </div>
+      <div class="brand-col brand-col-palette">
+        <img src="images/aurum_03.png" alt="Color palette" />
+        <div class="cap">Color palette: warm golden and sandy tones</div>
+      </div>
+      <div class="brand-col brand-col-type">
+        <div class="name">Zilla Slab</div>
+        <div class="aa">Aa</div>
+        <div class="alpha">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?@#$%&amp;*()—+=/\:;"',.</div>
+      </div>
+    </section>
 
-  <div class="divider-line"></div>
+    <!-- PROJECT BRIEF -->
+    <section class="brief-row reveal">
+      <div class="brief-img"><img src="images/aurum_04.png" alt="Brand cards composition" /></div>
+      <div class="brief-text">
+        <h2>Project Brief</h2>
+        <h3>Target Audience:</h3>
+        <p>Women and men 28–45, high income, interested in self-development, spirituality, design and conscious consumption. They value authenticity, depth and aesthetics with meaning.</p>
+        <h3>Core Idea:</h3>
+        <p>Every bottle is a modern ritual that connects the wearer with their inner power and the ancient wisdom of transformation.</p>
+        <h3>Positioning:</h3>
+        <p>"Not just a perfume — an alchemical act of transformation."</p>
+        <h3>Key Messages:</h3>
+        <ul>
+          <li>One touch, and the world subtly shifts.</li>
+          <li>Rooted in mystery. Designed for today.</li>
+          <li>From ancient rituals to modern luxury.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- FRAGRANCE MOOD -->
+    <section class="mood-section reveal">
+      <img src="images/aurum_05.png" alt="Fragrance Mood — posters" />
+    </section>
+
+    <!-- IMPACT & RESULTS -->
+    <section class="impact-row reveal">
+      <div class="impact-text">
+        <h2>Impact &amp; Results</h2>
+        <p class="lead">This concept creates strong emotional differentiation in a highly competitive luxury segment.</p>
+        <p>The rich storytelling and symbolic visual system allow the brand to:</p>
+        <ul>
+          <li>Justify premium pricing (expected $180–280 per bottle)</li>
+          <li>Build deeper customer loyalty through philosophy and ritual</li>
+          <li>Stand out both on the shelf and in digital space</li>
+          <li>Have high potential for extensions (candles, body care, fashion collaborations)</li>
+        </ul>
+        <p style="margin-top:18px;">The project demonstrates the ability to turn visual aesthetics into a complete strategic brand concept.</p>
+      </div>
+      <div class="impact-img-wrap">
+        <img src="images/aurum_06.png" alt="Perfume in box" />
+        <div class="cap">Materials: frosted glass, wood, sand, marble</div>
+      </div>
+    </section>
+
+    <!-- DUO ROW -->
+    <section class="duo-row reveal">
+      <div class="duo-col">
+        <img src="images/aurum_07.png" alt="Bottle in desert" />
+        <div class="cap">Bottle: minimalist shape</div>
+      </div>
+      <div class="duo-col duo-col--right">
+        <img src="images/aurum_08.png" alt="Saffron Amber poster" />
+        <div class="cap">Mood: mystery, soft light, high fashion</div>
+      </div>
+    </section>
+
+    <!-- CLOSING LINE -->
+    <p class="closing-line reveal">Feel free to leave a comment or share your thoughts</p>
+
+  </main>
 
   <!-- Footer -->
   <footer class="footer-bar">
@@ -447,6 +761,9 @@
       <a href="#" onclick="openContact(event)" class="footer-link">Contact</a>
     </nav>
   </footer>
+
+</div>
+</div>
 
   <!-- About Modal -->
   <div class="about-overlay" id="aboutOverlay" onclick="closeAbout()"></div>
@@ -556,7 +873,7 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.block, .block-row').forEach(el => revealObs.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   </script>
 </body>
 </html>
