@@ -594,48 +594,73 @@
       /* Smaller frame on mobile */
       .page-frame { padding: 12px; }
 
-      /* New aurum sections — mobile */
-      .hero-aurum-overlay { padding: 40px 16px 0; height: auto; width: 100%; position: relative; background: #d6dccf; left: 0; }
+      /* ── Hero: new mobile image as background, text + logo overlaid ── */
       .hero-aurum-img { display: none; }
-      .hero-aurum { background: #d6dccf; }
-      .hero-aurum::after {
-        content: '';
-        display: block;
-        background: url('images/aurum_01.png') no-repeat center bottom / cover;
-        height: 280px;
+      .hero-aurum {
+        background: url('images/aurum_mobile_hero.png') no-repeat center center / cover;
+        position: relative;
+        min-height: 520px;
       }
-      .hero-title { font-size: 28px !important; margin-bottom: 24px; }
+      .hero-aurum::after { display: none; }
+      .hero-aurum-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        background: transparent;
+        padding: 48px 20px 0;
+        height: auto;
+        width: 100%;
+        pointer-events: none;
+      }
+      .hero-title { font-size: 26px !important; margin-bottom: 16px; }
       .hero-intro { font-size: 12px; max-width: 100%; }
-      .hero-logo-wrap { position: relative; bottom: auto; left: auto; transform: none; margin: 30px auto 20px; width: 60%; }
-      .hero-logo-desc { position: relative; bottom: auto; left: auto; transform: none; width: auto; padding: 24px 20px 30px; font-size: 13px; }
+      .hero-logo-wrap {
+        position: absolute;
+        top: 62%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30%;
+        margin: 0;
+      }
+      .hero-logo-desc {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        transform: none;
+        width: auto;
+        padding: 12px 20px 16px;
+        font-size: 11px;
+        background: transparent;
+      }
 
-      .brand-row { grid-template-columns: 1fr; gap: 36px; padding: 0 20px; margin-top: 50px; }
-      .brand-col-type .name { font-size: 30px; }
-      .brand-col-type .aa { font-size: 44px; }
-      .brand-col-type .alpha { font-size: 10px; }
+      /* ── Brand row: fix blur by capping images at their natural size ── */
+      .brand-row { grid-template-columns: 1fr; gap: 24px; padding: 0 20px; margin-top: 32px; }
+      .brand-col-logo img { max-width: 220px; width: 100%; display: block; margin: 0 auto; }
+      .brand-col-palette img { max-width: 140px; width: auto; display: block; margin: 0 auto; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+      .brand-col-type .name { font-size: 36px; }
+      .brand-col-type .aa { font-size: 52px; }
+      .brand-col-type .alpha { font-size: 12px; }
 
-      .brief-row { grid-template-columns: 1fr; gap: 28px; padding: 0 20px; margin-top: 60px; }
+      .brief-row { grid-template-columns: 1fr; gap: 28px; padding: 0 20px; margin-top: 36px; }
       .brief-text h2 { font-size: 32px; }
       .brief-text h3 { font-size: 18px; }
 
-      .mood-section { padding: 0 20px; margin-top: 60px; }
+      .mood-section { padding: 0 20px; margin-top: 36px; }
 
-      .impact-row { grid-template-columns: 1fr; gap: 28px; padding: 0 20px; margin-top: 60px; }
+      .impact-row { grid-template-columns: 1fr; gap: 28px; padding: 0 20px; margin-top: 36px; }
       .impact-text h3 {
-      font-family: 'Zilla Slab', serif;
-      font-weight: 400;
-      font-size: 22px;
-      margin-top: 18px;
-      margin-bottom: 6px;
-      color: #723900;
-    }
-    .impact-text h2 { font-size: 32px; }
+        font-family: 'Zilla Slab', serif;
+        font-weight: 400;
+        font-size: 22px;
+        margin-top: 18px;
+        margin-bottom: 6px;
+        color: #723900;
+      }
+      .impact-text h2 { font-size: 32px; }
       .impact-text .lead { font-size: 18px; }
 
-      .duo-row { grid-template-columns: 1fr; gap: 24px; padding: 0 20px; margin-top: 50px; }
+      .duo-row { grid-template-columns: 1fr; gap: 20px; padding: 0 20px; margin-top: 36px; }
       .duo-col--right .cap { text-align: left; }
 
-      .closing-line { padding: 50px 20px 24px; font-size: 14px; }
+      .closing-line { padding: 36px 20px 20px; font-size: 14px; }
 
       /* Footer nav - match header */
       .footer-bar nav {
