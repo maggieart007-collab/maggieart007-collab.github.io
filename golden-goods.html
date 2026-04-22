@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sun in a Jar — Remneva Margarita</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Albert+Sans:wght@300;400;500;600;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --accent:  #FFFAE3;
+      --text:    #2D543D;
+      --stripe:  58px;
+      --font:    'ZT Neue Ralewe', 'Cormorant Garamond', Georgia, serif;
+      --font-ui: 'Albert Sans', sans-serif;
+      --gap:     38px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: #fff;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Right vertical stripe: fixed, 58px ── */
+    .right-stripe {
+      position: fixed;
+      top: 0; right: 0;
+      width: var(--stripe);
+      height: 100%;
+      background: var(--accent);
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    /* ── Page container: everything sits inside, right of stripe ── */
+    .site-wrap {
+      width: calc(100% - var(--stripe));
+      min-height: 100vh;
+      padding-top: 50px;
+    }
+
+    /* ── Nav ── */
+    .nav-wrapper {
+      position: fixed;
+      top: 20px; left: 50%;
+      transform: translateX(-50%) translateY(-120px);
+      z-index: 100;
+      animation: navSlideIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+    }
+    .nav-wrapper.hidden { transform: translateX(-50%) translateY(-120px); }
+    .nav-wrapper.visible { transform: translateX(-50%) translateY(0); }
+    @keyframes navSlideIn { to { transform: translateX(-50%) translateY(0); } }
+    .nav {
+      display: flex; align-items: center; gap: 4px;
+      padding: 6px 8px;
+      background: rgba(0,0,0,0.05);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 50px;
+    }
+    .nav a {
+      font-family: var(--font-ui); font-size: 13px; font-weight: 500;
+      color: rgba(0,0,0,0.45); padding: 8px 16px;
+      position: relative; transition: color 0.3s; white-space: nowrap;
+    }
+    .nav a:hover { color: #000; }
+    .nav a::after {
+      content: ''; position: absolute;
+      bottom: 4px; left: 16px; right: 16px;
+      height: 1px; background: #000;
+      transform: scaleX(0); transform-origin: left center;
+      transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .nav a:hover::after { transform: scaleX(1); }
+
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                  transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ══════════════════════════════════════
+       TYPOGRAPHY
+    ══════════════════════════════════════ */
+    .t-heading {
+      font-family: var(--font);
+      font-size: 36px; font-weight: 700; font-style: italic;
+      color: var(--text); line-height: 1.2;
+    }
+    .t-body {
+      font-family: var(--font);
+      font-size: 24px; font-weight: 500; font-style: normal;
+      line-height: 36px; color: var(--text);
+      margin-bottom: 30px;
+    }
+    .t-body:last-child { margin-bottom: 0; }
+    ul.t-body { padding-left: 24px; }
+    ul.t-body li { margin-bottom: 4px; }
+
+    /* ══════════════════════════════════════
+       BLOCK 1 — HERO
+    ══════════════════════════════════════ */
+    .hero {
+      padding-top: 56px;
+    }
+
+    /* Title: centered, one line, above yellow block */
+    .hero-title {
+      font-family: var(--font);
+      font-size: clamp(20px, 3vw, 48px);
+      font-weight: 700; font-style: italic;
+      color: var(--text);
+      text-align: center;
+      white-space: nowrap;
+      padding: 0 40px 0;
+      margin-bottom: 48px;
+    }
+
+    /* Yellow block */
+    .hero-block {
+      background: var(--accent);
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      height: 439px;
+      margin: 0 20px;
+      position: relative;
+      overflow: visible;
+    }
+
+    .hero-block-left {
+      padding: 48px 40px 48px 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .hero-block-right {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: visible;
+    }
+
+    /* Jar image only, overflows above block */
+    .hero-jar {
+      position: absolute;
+      right: 0;
+      bottom: 50px;
+      height: 441px;
+      width: auto;
+      display: block;
+      z-index: 2;
+    }
+
+    /* ══════════════════════════════════════
+       CONTENT SECTIONS
+    ══════════════════════════════════════ */
+    .content-col {
+      padding-left: 90px;
+      padding-right: 40px;
+    }
+
+    .section {
+      margin-top: var(--gap);
+      padding: 0 40px 0 110px;
+    }
+
+    .section-heading {
+      margin-bottom: 16px;
+    }
+
+    .section-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: flex-start;
+    }
+    .section-row--rev {
+      grid-template-columns: auto 1fr;
+    }
+    .section-deco img { width: 120px; height: auto; display: block; margin-top: 8px; }
+
+    /* Text sections wrapper with lemon bg decorations */
+    .text-sections {
+      position: relative;
+      padding-bottom: var(--gap);
+    }
+    .deco-lemon {
+      position: absolute;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+    .deco-lemon--left {
+      left: 0;
+      top: calc(50% + 130px);
+      transform: translateY(-50%);
+      width: 90px;
+      height: auto;
+    }
+    .deco-lemon--right {
+      right: -30px;
+      top: calc(40% - 70px);
+      transform: translateY(-50%);
+      width: 160px;
+      height: auto;
+      z-index: -1;
+    }
+    /* Text sits above lemons */
+    .text-sections .section {
+      position: relative;
+      z-index: 1;
+    }
+    .text-sections .section .t-body,
+    .text-sections .section .t-heading {
+      max-width: none;
+    }
+
+    /* ══════════════════════════════════════
+       LOGO BLOCK — accent bg
+    ══════════════════════════════════════ */
+    .logo-block {
+      background: var(--accent);
+      margin: var(--gap) 20px 0;
+      overflow: hidden;
+    }
+    /* Top row: logo left | text+image right, centered to each other */
+    .logo-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 36px 60px 28px 60px;
+    }
+    .logo-col-left {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 62px;
+    }
+    .logo-col-left img { height: auto; display: block; width: 180px; }
+    .logo-col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 560px;
+    }
+    .logo-col-right p { text-align: right; }
+    .logo-col-right img { height: auto; display: block; width: 732px; align-self: flex-start; }
+    /* Bottom: full width, centered text, 2 lines */
+    .logo-bottom {
+      text-align: center;
+      padding: 0 60px 36px 60px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo-bottom .t-body {
+      font-size: 20px;
+      line-height: 30px;
+      margin-bottom: 0;
+    }
+
+    /* ══════════════════════════════════════
+       PALETTE
+    ══════════════════════════════════════ */
+    .palette-section {
+      padding: 40px 110px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 80px;
+      align-items: center;
+    }
+    .palette-img { display: block; height: auto; }
+    .sw-beige  { background: #EDE0C4; }
+    .sw-green  { background: #2D543D; }
+    .sw-blue   { background: #4A4B9E; }
+
+    /* ══════════════════════════════════════
+       PATTERN SECTION
+    ══════════════════════════════════════ */
+    /* pattern section rewrite */
+    .pattern-block {
+      background: var(--accent);
+      margin: var(--gap) 20px 0;
+      display: grid;
+      grid-template-columns: 317px 1fr;
+      align-items: start;
+    }
+    .pattern-block-left {
+      display: flex;
+      flex-direction: column;
+    }
+    .pattern-block-left img {
+      display: block;
+      width: 317px;
+      height: auto;
+    }
+    .pattern-block-right {
+      padding: 40px 40px 40px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .pattern-block-right .t-body {
+      text-align: right;
+    }
+    .pattern-block-right img {
+      display: block;
+      height: auto;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+    /* 4 photos: 2x2 grid, natural sizes */
+    .photos-4 {
+      margin: var(--gap) 0 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+    .photos-4 img {
+      display: block;
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* ══════════════════════════════════════
+       SUNLIGHT SECTION
+    ══════════════════════════════════════ */
+    .sunlight {
+      background: var(--accent);
+      margin-top: var(--gap);
+    }
+    .sunlight-head {
+      text-align: center;
+      padding: 48px 40px 28px;
+    }
+    .sunlight-big {
+      font-family: var(--font);
+      font-size: clamp(56px, 9vw, 120px);
+      font-weight: 700; font-style: italic;
+      color: var(--text); line-height: 0.9; display: block;
+    }
+    .sunlight-small {
+      font-family: var(--font);
+      font-size: 24px; font-weight: 500; font-style: normal;
+      color: var(--text); margin-top: 10px; display: block;
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3px;
+      padding: 0 3px 3px;
+    }
+    .photo-grid img {
+      width: 100%; height: 320px; object-fit: cover; display: block;
+    }
+    .photo-grid img.tall {
+      grid-row: 1 / 3;
+      height: 100%;
+    }
+    .photo-grid img.wide {
+      grid-column: 2 / 4;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .gg-footer {
+      margin-top: var(--gap);
+      padding: 56px 110px 48px;
+      text-align: center;
+    }
+    .gg-footer-text { margin-bottom: 28px; }
+        .gg-footer-img {
+      display: block;
+      margin-left: auto;
+      margin-right: 0;
+      height: auto;
+    }
+
+    .divider { height: 1px; background: rgba(0,0,0,0.08); margin: 0 40px; }
+
+    .footer-bar {
+      padding: 16px 24px 40px;
+      text-align: center;
+    }
+    .footer-bar nav {
+      display: inline-flex; align-items: center;
+      gap: 4px; padding: 6px 8px;
+      border: 1px solid rgba(0,0,0,0.1); border-radius: 50px;
+    }
+    .footer-link {
+      font-family: var(--font-ui); font-size: 13px; font-weight: 500;
+      color: rgba(0,0,0,0.45); padding: 8px 16px;
+      position: relative; transition: color 0.3s; white-space: nowrap;
+    }
+    .footer-link:hover { color: #1a1510; }
+    .footer-link::after {
+      content: ''; position: absolute;
+      bottom: 4px; left: 16px; right: 16px;
+      height: 1px; background: #1a1510;
+      transform: scaleX(0); transform-origin: left center;
+      transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .footer-link:hover::after { transform: scaleX(1); }
+
+    /* ══════════════════════════════════════
+       MODALS
+    ══════════════════════════════════════ */
+    .about-overlay {
+      position: fixed; inset: 0; z-index: 150;
+      background: rgba(0,0,0,0.15); backdrop-filter: blur(12px);
+      opacity: 0; pointer-events: none; transition: opacity 0.6s;
+    }
+    .about-overlay.active { opacity: 1; pointer-events: all; }
+    .about-modal {
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0.95); z-index: 151;
+      width: 92%; max-width: 1060px;
+      background: rgba(26,26,26,0.75); backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 24px;
+      padding: 60px 56px; color: #fff;
+      font-family: var(--font-ui); font-size: 18px; font-weight: 300; line-height: 1.7;
+      text-align: center; opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+    }
+    .about-modal.active { transform: translate(-50%,-50%) scale(1); opacity: 1; pointer-events: all; }
+    .about-modal strong { font-weight: 700; }
+    .about-modal p { margin-bottom: 20px; }
+    .about-modal p:last-child { margin-bottom: 0; }
+
+    .contact-modal {
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0.95); z-index: 151;
+      width: 88%; max-width: 820px;
+      background: #fff; border-radius: 24px;
+      font-family: var(--font-ui); opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none; display: flex; flex-wrap: wrap; overflow: hidden;
+    }
+    .contact-modal.active { transform: translate(-50%,-50%) scale(1); opacity: 1; pointer-events: all; }
+    .contact-img { flex-shrink: 0; width: 260px; padding: 24px 28px 0 0; display: flex; align-items: flex-end; order: 2; }
+    .contact-img img { width: 100%; height: auto; display: block; }
+    .contact-body { flex: 1; min-width: 300px; padding: 48px 40px 24px 52px; order: 1; }
+    .contact-modal h3 { font-size: 32px; font-weight: 900; margin-bottom: 36px; }
+    .contact-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; cursor: pointer; transition: opacity 0.2s; }
+    .contact-item:hover { opacity: 0.7; }
+    .contact-item svg { width: 36px; height: 36px; flex-shrink: 0; }
+    .contact-item-text strong { display: block; font-size: 18px; font-weight: 700; }
+    .contact-item-text span { font-size: 15px; color: #333; text-decoration: underline; text-underline-offset: 3px; }
+    .contact-footer { width: 100%; text-align: center; font-size: 15px; color: #666; padding: 0 52px 36px; order: 3; }
+    .copied-toast {
+      position: fixed; bottom: 32px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1a1a1a; color: #fff;
+      font-family: var(--font-ui); font-size: 14px; font-weight: 500;
+      padding: 10px 24px; border-radius: 50px;
+      opacity: 0; transition: opacity 0.3s, transform 0.3s;
+      z-index: 200; pointer-events: none;
+    }
+    .copied-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ══════════════════════════════════════
+       MOBILE
+    ══════════════════════════════════════ */
+    @media (max-width: 768px) {
+      :root { --stripe: 24px; }
+      .hero-title { white-space: normal; font-size: 22px; }
+      .hero-block { grid-template-columns: 1fr; }
+      .hero-block-right { min-height: 280px; }
+      .hero-jar { width: 60%; margin: 0 auto; }
+      .hero-pattern { width: 80%; top: -20px; }
+      .logo-block { grid-template-columns: 1fr; gap: 24px; }
+      .section { padding: 0 20px; }
+      .section-row { grid-template-columns: 1fr; }
+      .section-deco { display: none; }
+      .palette-row { grid-template-columns: 1fr; gap: 20px; }
+      .pattern-grid { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .photo-grid img.tall { grid-row: auto; height: 180px; }
+      .photo-grid img { height: 180px; }
+      .photo-grid img.wide { grid-column: auto; }
+      .nav { gap: 2px; padding: 6px 10px; }
+      .nav a { font-size: 11px; padding: 5px 7px; }
+      .footer-bar nav { gap: 2px; padding: 6px 10px; }
+      .footer-link { font-size: 11px; padding: 5px 7px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed right stripe -->
+  <div class="right-stripe"></div>
+
+  <!-- Everything sits in site-wrap (100% - 58px) -->
+  <div class="site-wrap">
+
+    <!-- Nav -->
+    <div class="nav-wrapper" id="navbar">
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="#" onclick="openAbout(event)">About</a>
+        <a href="index.html#projects">Projects / Work</a>
+        <a href="https://www.notion.so/Design-Strategist-Concept-Designer-344a92640e2e80b1b121cf6fde37ccab?source=copy_link" target="_blank">Open CV</a>
+        <a href="#" onclick="openContact(event)">Contact</a>
+      </nav>
+    </div>
+
+    <!-- ══ BLOCK 1: HERO ══ -->
+    <section class="hero reveal">
+
+      <!-- Title above yellow block, centered, one line -->
+      <h1 class="hero-title">Sun in a Jar — A branding journey through lemon curd</h1>
+
+      <!-- Yellow block: text left, image right -->
+      <div class="hero-block">
+        <div class="hero-block-left">
+          <p class="t-body">This is a lemon curd made by hand, in small batches, for close friends and family.</p>
+          <p class="t-body">It's a home-grown creation — infused with warmth, sun, and the quiet comfort of shared moments.</p>
+          <p class="t-body">Golden light, soft textures, and a hint of nostalgia define the mood of this brand.</p>
+        </div>
+        <div class="hero-block-right">
+<img class="hero-jar" src="images/gg_Group_190.png" alt="Lemon curd jar" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ BLOCKS 2–5: text sections with lemon bg decorations ══ -->
+    <div class="text-sections">
+
+      <!-- lemon left: pinned to left edge, behind text -->
+      <img class="deco-lemon deco-lemon--left" src="images/gg_lemon2.png" alt="" />
+      <!-- lemon right: pinned flush to right stripe, behind text -->
+      <img class="deco-lemon deco-lemon--right" src="images/gg_lemon.png" alt="" />
+
+      <!-- BLOCK 2: PROJECT BRIEF -->
+      <section class="section reveal">
+        <h2 class="t-heading section-heading">Project Brief</h2>
+        <p class="t-body">In a world full of mass-produced jars on supermarket shelves, this small home workshop wanted its own gentle voice. The goal was to create a visual identity that feels as warm and personal as the product itself — something that captures golden afternoon light, the softness of homemade curd and the joy of giving a little jar of summer to someone you care about.</p>
+      </section>
+
+      <!-- BLOCK 3: TARGET AUDIENCE -->
+      <section class="section reveal">
+        <h2 class="t-heading section-heading">Target Audience</h2>
+        <p class="t-body">People who cherish slow, mindful moments: women and men 28–45 who love natural homemade things, small pleasures and the feeling that something was made with care just for them.</p>
+      </section>
+
+      <!-- BLOCK 4: CORE IDEA -->
+      <section class="section reveal">
+        <h2 class="t-heading section-heading">Core Idea</h2>
+        <p class="t-body">Bottle a piece of summer and the feeling of home — so that every time you open the jar, you remember the taste of sunshine and quiet happiness.</p>
+      </section>
+
+      <!-- BLOCK 5: RESEARCH & INSIGHTS -->
+      <section class="section reveal">
+        <h2 class="t-heading section-heading">Research &amp; Insights</h2>
+        <p class="t-body">I noticed how people today crave something real and warm in their kitchens. Small-batch homemade treats are becoming more and more treasured because they bring back memories of childhood, family tables and sunny afternoons. The challenge was to turn this tiny workshop into a brand that feels like a gift from a dear friend rather than just another product.</p>
+      </section>
+
+    </div><!-- /text-sections -->
+
+    <!-- ══ BLOCK 6: LOGO + MONOGRAM ══ -->
+    <div class="logo-block reveal">
+
+      <!-- Top row: left = logo, right = text + pattern image, vertically centered -->
+      <div class="logo-top">
+        <div class="logo-col-left">
+          <img src="images/gg_logo.png" alt="Golden Goods logo" />
+        </div>
+        <div class="logo-col-right">
+          <p class="t-body">At the heart of the visual identity is a gentle monogram — two letters from the brand name Golden Goods, intertwined to reflect simplicity, care, and timeless charm.</p>
+          <img src="images/gg_block4.png" alt="" />
+        </div>
+      </div>
+
+      <!-- Bottom: two sentences centered, spanning full width, inside the block -->
+      <div class="logo-bottom">
+        <p class="t-body">Every detail is meant to feel like home: the folds of a scarf, the creamy texture of curd, the softness of morning light falling on a jar.</p>
+        <p class="t-body">This project is an attempt to capture those fleeting sunlit moments in a visual language — to bottle up a piece of summer and share it.</p>
+      </div>
+
+    </div>
+
+    <!-- ══ BLOCK 7: COLOR PALETTE ══ -->
+    <section class="palette-section section reveal">
+      <div>
+        <p class="t-body">The color palette is a soft reflection of summer — yellow for lemons and sunlight, beige for homemade warmth, green for freshness and natural origin, blue for calmness and a touch of vintage charm.</p>
+        <p class="t-body">The pattern combines hand-drawn lemons and leaves with delicate blue ornamental shapes. Drawn entirely by hand, it brings a personal, crafted touch that appears across packaging and textiles, creating a cozy, sunny world.</p>
+      </div>
+      <img class="palette-img" src="images/gg_colors.png" alt="Color palette" />
+    </section>
+
+    <!-- ══ BLOCK 8: PATTERN ══ -->
+    <!-- Yellow accent block: left=photo1, right=text+pattern2 -->
+    <div class="pattern-block reveal">
+      <div class="pattern-block-left">
+        <img src="images/gg_photo1.png" alt="" />
+      </div>
+      <div class="pattern-block-right">
+        <p class="t-body">The pattern combines hand-drawn lemons and leaves with delicate blue ornamental shapes in the background. It brings together the freshness of fruit with a nostalgic, almost vintage charm — like a sunny afternoon in a countryside kitchen.</p>
+        <p class="t-body">Drawn entirely by hand, the pattern adds a personal, homemade touch. It appears across packaging and textiles, creating a soft, warm atmosphere that feels both crafted and comforting.</p>
+        <img src="images/gg_pattern2.png" alt="" />
+      </div>
+    </div>
+
+    <!-- 4 photos 2x2, natural sizes -->
+    <div class="photos-4 reveal">
+      <img src="images/gg_photo2.png" alt="" />
+      <img src="images/gg_photo3.png" alt="" />
+      <img src="images/gg_photo4.png" alt="" />
+      <img src="images/gg_photo5.png" alt="" />
+    </div>
+
+  </div><!-- /site-wrap -->
+
+  <!-- ══ BLOCK 10: FOOTER ══ -->
+    <footer class="gg-footer reveal">
+      <p class="t-body gg-footer-text">
+        Thank you for exploring this cozy lemony story.<br>
+        If you enjoyed the project — feel free to like, share or follow.<br>
+        I'm always happy to connect and collaborate!
+      </p>
+      <img class="gg-footer-img" src="images/gg_text.png" alt="lemon curd made by hand" />
+    </footer>
+
+    <div class="divider"></div>
+
+    <div class="footer-bar">
+      <nav>
+        <a href="index.html" class="footer-link">Home</a>
+        <a href="#" onclick="openAbout(event)" class="footer-link">About</a>
+        <a href="index.html#projects" class="footer-link">Projects / Work</a>
+        <a href="https://www.notion.so/Design-Strategist-Concept-Designer-344a92640e2e80b1b121cf6fde37ccab?source=copy_link" target="_blank" class="footer-link">Open CV</a>
+        <a href="#" onclick="openContact(event)" class="footer-link">Contact</a>
+      </nav>
+    </div>
+
+  </div><!-- /site-wrap -->
+
+  <!-- About Modal -->
+  <div class="about-overlay" id="aboutOverlay" onclick="closeAbout()"></div>
+  <div class="about-modal" id="aboutModal">
+    <p><strong>I'm a Design Strategist &amp; Concept Designer with 6 years of experience across advertising agencies and major banking/fintech projects.</strong></p>
+    <p>I focus on turning abstract business goals into clear, emotionally engaging visual systems and brand languages. I've helped brands shift audience perception, strengthen long-term loyalty and successfully launch new products and directions — always starting with one key question: what needs to change in how people think, feel, or act?</p>
+    <p>I make strategic decisions at the intersection of business logic and human emotion, whether the goal is to build loyalty in competitive financial markets, attract new audiences or communicate complex ideas in a simple and meaningful way.</p>
+    <p>I'm looking to be a thinking partner within a team — bringing clarity, direction and hands-on strategic experience, not just execution.</p>
+    <p>I believe strong brands are born where deep strategy meets genuine emotion.</p>
+  </div>
+
+  <!-- Contact Modal -->
+  <div class="about-overlay" id="contactOverlay" onclick="closeContact()"></div>
+  <div class="contact-modal" id="contactModal">
+    <div class="contact-body">
+      <h3>Contacts</h3>
+      <div class="contact-item" onclick="copyText('@nihil_aluid')">
+        <svg viewBox="0 0 24 24" fill="#000"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        <div class="contact-item-text"><strong>Telegram</strong><span>@nihil_aluid</span></div>
+      </div>
+      <div class="contact-item" onclick="copyText('maggieart007@gmail.com')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div class="contact-item-text"><strong>Mail</strong><span>maggieart007@gmail.com</span></div>
+      </div>
+      <div class="contact-item" onclick="copyText('www.linkedin.com/in/margarita-remneva-602923229')">
+        <svg viewBox="0 0 24 24" fill="#000"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <div class="contact-item-text"><strong>Linkedin</strong><span>www.linkedin.com/in/margarita-remneva-602923229</span></div>
+      </div>
+    </div>
+    <div class="contact-img">
+      <img src="images/contact_illustration.png" alt="" />
+    </div>
+    <div class="contact-footer">Feel free to reach out — I always reply</div>
+  </div>
+  <div class="copied-toast" id="copiedToast">Copied!</div>
+
+  <script>
+    function openAbout(e) { e.preventDefault(); document.getElementById('aboutOverlay').classList.add('active'); document.getElementById('aboutModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeAbout() { document.getElementById('aboutOverlay').classList.remove('active'); document.getElementById('aboutModal').classList.remove('active'); document.body.style.overflow = ''; }
+    function openContact(e) { e.preventDefault(); document.getElementById('contactOverlay').classList.add('active'); document.getElementById('contactModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeContact() { document.getElementById('contactOverlay').classList.remove('active'); document.getElementById('contactModal').classList.remove('active'); document.body.style.overflow = ''; }
+    function copyText(text) { navigator.clipboard.writeText(text).then(() => { const t = document.getElementById('copiedToast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1500); }); }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeAbout(); closeContact(); } });
+
+    const navbar = document.getElementById('navbar');
+    let lastY = window.scrollY, vis = true, done = false;
+    setTimeout(() => { done = true; navbar.style.animation = 'none'; navbar.classList.add('visible'); }, 1200);
+    window.addEventListener('scroll', () => {
+      if (!done) return;
+      const y = window.scrollY;
+      if (y > lastY && y > 80) { if (vis) { navbar.classList.remove('visible'); navbar.classList.add('hidden'); vis = false; } }
+      else if (y < lastY) { if (!vis) { navbar.classList.remove('hidden'); navbar.classList.add('visible'); vis = true; } }
+      lastY = y;
+    }, { passive: true });
+    document.addEventListener('mousemove', (e) => { if (!done) return; if (e.clientY < 80 && !vis) { navbar.classList.remove('hidden'); navbar.classList.add('visible'); vis = true; } });
+
+    const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.07 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
